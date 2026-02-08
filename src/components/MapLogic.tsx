@@ -22,8 +22,7 @@ export default function MapLogic({
 
   // Calculate pan limits based on current zoom
   const getPanLimits = useCallback(() => {
-    const orthoCamera = camera as THREE.OrthographicCamera;
-    const zoom = orthoCamera.zoom;
+    const zoom = camera.zoom;
 
     // Calculate visible area in world units
     const halfVisibleWidth = size.width / zoom / 2;
@@ -33,8 +32,8 @@ export default function MapLogic({
     const halfPlaneHeight = planeHeight / 2;
 
     // Calculate max pan distance (how far camera center can move from origin)
-    const maxPanX = Math.max(0, halfPlaneWidth - halfVisibleWidth);
-    const maxPanY = Math.max(0, halfPlaneHeight - halfVisibleHeight);
+    const maxPanX = Math.max(0, halfPlaneWidth - halfVisibleWidth); // fixed
+    const maxPanY = Math.max(0, halfPlaneHeight - halfVisibleHeight); // fixed
 
     return { maxPanX, maxPanY };
   }, [camera, size, planeWidth, planeHeight]);
@@ -47,8 +46,16 @@ export default function MapLogic({
     const { maxPanX, maxPanY } = getPanLimits();
 
     // Clamp target position
-    const clampedX = THREE.MathUtils.clamp(controls.target.x, -maxPanX, maxPanX);
-    const clampedY = THREE.MathUtils.clamp(controls.target.y, -maxPanY, maxPanY);
+    const clampedX = THREE.MathUtils.clamp(
+      controls.target.x,
+      -maxPanX,
+      maxPanX,
+    );
+    const clampedY = THREE.MathUtils.clamp(
+      controls.target.y,
+      -maxPanY,
+      maxPanY,
+    );
 
     // Calculate the delta to apply to camera
     const deltaX = clampedX - controls.target.x;
