@@ -1,18 +1,17 @@
-/**
- * Region manager component - container for all region icons and terrain overlays
- * Manages hover state and coordinates rendering of all region components
- */
-
-import { useState, useCallback } from 'react';
-import { REGIONS } from './region-config';
-import { useRegionTextures } from './use-region-textures';
-import { RegionIcon } from './region-icon';
-import { RegionTerrainOverlay } from './region-terrain-overlay';
+import { useState, useCallback } from "react";
+import { REGIONS } from "./region-config";
+import { useRegionTextures } from "./use-region-textures";
+import { RegionIcon } from "./region-icon";
+import { RegionTerrainOverlay } from "./region-terrain-overlay";
 
 interface RegionManagerProps {
   planeSize: number;
 }
 
+/**
+ * Region manager component - container for all region icons and terrain overlays.
+ * Manages hover state and coordinates rendering of all region components.
+ */
 export function RegionManager({ planeSize }: RegionManagerProps) {
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
   const textures = useRegionTextures();
