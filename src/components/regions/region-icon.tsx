@@ -44,7 +44,7 @@ function RegionIconInner({
     <sprite
       ref={spriteRef}
       position={[region.position[0], region.position[1], Z_LAYERS.ICONS]}
-      scale={[region.iconSize, region.iconSize, 1]}
+      scale={region.iconSize}
       onPointerOver={handlePointerOver}
       onPointerOut={handlePointerOut}
     >

@@ -7,7 +7,7 @@ export interface RegionConfig {
   id: string;
   name: string;
   position: [number, number]; // [x, y] on plane
-  iconSize: number;
+  iconSize: [number, number, number]; // [width, height, depth]
   color: string; // hex for terrain tinting
   hasTerrain: boolean; // some regions may not have terrain masks
 }
@@ -17,7 +17,7 @@ export const REGIONS: RegionConfig[] = [
     id: "bilgewater",
     name: "Bilgewater",
     position: [27.2, -9],
-    iconSize: 4,
+    iconSize: [4, 4, 1],
     color: "#20B2AA",
     hasTerrain: true,
   },
@@ -25,7 +25,7 @@ export const REGIONS: RegionConfig[] = [
     id: "demacia",
     name: "Demacia",
     position: [-20.8, 2.7],
-    iconSize: 4,
+    iconSize: [4, 4, 1],
     color: "#4A90D9",
     hasTerrain: true,
   },
@@ -33,7 +33,7 @@ export const REGIONS: RegionConfig[] = [
     id: "freljord",
     name: "Freljord",
     position: [-16.9, 13.2],
-    iconSize: 4,
+    iconSize: [4, 4, 1],
     color: "#87CEEB",
     hasTerrain: true,
   },
@@ -41,7 +41,7 @@ export const REGIONS: RegionConfig[] = [
     id: "ionia",
     name: "Ionia",
     position: [26.1, 10.7],
-    iconSize: 4,
+    iconSize: [4, 4, 1],
     color: "#DA70D6",
     hasTerrain: true,
   },
@@ -49,7 +49,7 @@ export const REGIONS: RegionConfig[] = [
     id: "ixtal",
     name: "Ixtal",
     position: [13.5, -16.5],
-    iconSize: 4,
+    iconSize: [4, 4, 1],
     color: "#228B22",
     hasTerrain: true,
   },
@@ -57,7 +57,7 @@ export const REGIONS: RegionConfig[] = [
     id: "noxus",
     name: "Noxus",
     position: [-0.7, 7.4],
-    iconSize: 4,
+    iconSize: [4, 4, 1],
     color: "#C9302C",
     hasTerrain: true,
   },
@@ -65,7 +65,7 @@ export const REGIONS: RegionConfig[] = [
     id: "piltover-zaun",
     name: "Piltover & Zaun",
     position: [9.4, -5.7],
-    iconSize: 4,
+    iconSize: [4, 8, 1],
     color: "#FFD700",
     hasTerrain: false, // no terrain mask available
   },
@@ -73,7 +73,7 @@ export const REGIONS: RegionConfig[] = [
     id: "shadow-isles",
     name: "Shadow Isles",
     position: [34.7, -19.5],
-    iconSize: 4,
+    iconSize: [4, 4, 1],
     color: "#2E8B57",
     hasTerrain: true,
   },
@@ -81,7 +81,7 @@ export const REGIONS: RegionConfig[] = [
     id: "shurima",
     name: "Shurima",
     position: [3, -17.3],
-    iconSize: 4,
+    iconSize: [4, 4, 1],
     color: "#DAA520",
     hasTerrain: true,
   },
@@ -89,7 +89,7 @@ export const REGIONS: RegionConfig[] = [
     id: "targon",
     name: "Targon",
     position: [-10.9, -19.5],
-    iconSize: 4,
+    iconSize: [4, 4, 1],
     color: "#9370DB",
     hasTerrain: true,
   },
