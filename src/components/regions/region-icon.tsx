@@ -3,11 +3,11 @@
  * Swaps between base and hover texture variants on pointer events
  */
 
-import { useRef } from 'react';
-import * as THREE from 'three';
-import type { ThreeEvent } from '@react-three/fiber';
-import type { RegionConfig } from './region-config';
-import { Z_LAYERS } from './region-config';
+import { memo, useRef } from "react";
+import * as THREE from "three";
+import type { ThreeEvent } from "@react-three/fiber";
+import type { RegionConfig } from "./region-config";
+import { Z_LAYERS } from "./region-config";
 
 interface RegionIconProps {
   region: RegionConfig;
@@ -17,7 +17,7 @@ interface RegionIconProps {
   onHover: (regionId: string | null) => void;
 }
 
-export function RegionIcon({
+function RegionIconInner({
   region,
   baseTexture,
   hoverTexture,
@@ -29,13 +29,13 @@ export function RegionIcon({
   const handlePointerOver = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
     onHover(region.id);
-    document.body.style.cursor = 'pointer';
+    document.body.style.cursor = "pointer";
   };
 
   const handlePointerOut = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
     onHover(null);
-    document.body.style.cursor = 'auto';
+    document.body.style.cursor = "auto";
   };
 
   const currentTexture = isHovered ? hoverTexture : baseTexture;
@@ -57,3 +57,5 @@ export function RegionIcon({
     </sprite>
   );
 }
+
+export const RegionIcon = memo(RegionIconInner);

@@ -3,11 +3,11 @@
  * Displays colored terrain mask when region is hovered
  */
 
-import { useRef } from 'react';
-import * as THREE from 'three';
-import { useFrame } from '@react-three/fiber';
-import type { RegionConfig } from './region-config';
-import { Z_LAYERS } from './region-config';
+import { memo, useRef } from "react";
+import * as THREE from "three";
+import { useFrame } from "@react-three/fiber";
+import type { RegionConfig } from "./region-config";
+import { Z_LAYERS } from "./region-config";
 
 interface RegionTerrainOverlayProps {
   region: RegionConfig;
@@ -20,7 +20,7 @@ interface RegionTerrainOverlayProps {
 const TARGET_OPACITY = 0.6;
 const FADE_SPEED = 8; // Higher = faster fade
 
-export function RegionTerrainOverlay({
+function RegionTerrainOverlayInner({
   region,
   terrainTexture,
   isHovered,
@@ -65,3 +65,5 @@ export function RegionTerrainOverlay({
     </mesh>
   );
 }
+
+export const RegionTerrainOverlay = memo(RegionTerrainOverlayInner);
