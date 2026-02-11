@@ -96,7 +96,14 @@ export function useRegionTextures(): RegionTextures {
   });
 
   // Load all textures
-  const iconTextures = useTexture(allIconPaths);
+  const iconTextures = useTexture(allIconPaths, (textures) => {
+    // Disable premultiplied alpha to preserve original colors
+    const textureArray = Array.isArray(textures) ? textures : [textures];
+    textureArray.forEach((texture) => {
+      texture.premultiplyAlpha = false;
+      texture.needsUpdate = true;
+    });
+  });
   const terrainTextures = useTexture(allTerrainPaths);
 
   // Map textures back to region IDs

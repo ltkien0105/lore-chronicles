@@ -1,13 +1,16 @@
 /**
  * Region icon sprite component with hover detection
  * Swaps between base and hover texture variants on pointer events
+ * Displays region name text below the icon
  */
 
 import { memo, useRef } from "react";
 import * as THREE from "three";
 import type { ThreeEvent } from "@react-three/fiber";
+import { Text } from "@react-three/drei";
 import type { RegionConfig } from "./region-config";
 import { Z_LAYERS } from "./region-config";
+import { BeaufortforLOLBold } from "@/assets/fonts";
 
 interface RegionIconProps {
   region: RegionConfig;
@@ -40,21 +43,39 @@ function RegionIconInner({
 
   const currentTexture = isHovered ? hoverTexture : baseTexture;
 
+  // Calculate text position below icon
+  const textY = region.position[1] - region.iconSize[1] / 2;
+
   return (
-    <sprite
-      ref={spriteRef}
-      position={[region.position[0], region.position[1], Z_LAYERS.ICONS]}
-      scale={region.iconSize}
-      onPointerOver={handlePointerOver}
-      onPointerOut={handlePointerOut}
-    >
-      <spriteMaterial
-        map={currentTexture}
-        transparent
-        depthWrite={false}
-        depthTest={true}
-      />
-    </sprite>
+    <group>
+      <sprite
+        ref={spriteRef}
+        position={[region.position[0], region.position[1], Z_LAYERS.ICONS]}
+        scale={region.iconSize}
+        onPointerOver={handlePointerOver}
+        onPointerOut={handlePointerOut}
+      >
+        <spriteMaterial
+          map={currentTexture}
+          transparent
+          depthWrite={false}
+          depthTest={true}
+        />
+      </sprite>
+      <Text
+        position={[region.position[0], textY, Z_LAYERS.TEXT]}
+        fontSize={1.3}
+        color={"#ffffff"}
+        anchorX="center"
+        anchorY="top"
+        outlineWidth={0.02}
+        outlineColor="#000000"
+        fontWeight="bold"
+        font={BeaufortforLOLBold}
+      >
+        {region.name.toUpperCase()}
+      </Text>
+    </group>
   );
 }
 
