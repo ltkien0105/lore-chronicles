@@ -105,4 +105,5 @@ export const Z_LAYERS = {
   OVERLAY: 0.1,
   ICONS: 0.2,
   TEXT: 0.3,
+  PINS: 0.4,
 } as const;

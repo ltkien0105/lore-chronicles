@@ -3,6 +3,7 @@ import { REGIONS } from "./region-config";
 import { useRegionTextures } from "./use-region-textures";
 import { RegionIcon } from "./region-icon";
 import { RegionTerrainOverlay } from "./region-terrain-overlay";
+import { DebugPositionLogger } from "./debug-position-logger";
 
 interface RegionManagerProps {
   planeSize: number;
@@ -22,6 +23,7 @@ function RegionManagerInner({ planeSize }: RegionManagerProps) {
 
   return (
     <group>
+      <DebugPositionLogger planeSize={planeSize} />
       {/* Render terrain overlays first (lower z-index) */}
       {REGIONS.map((region) => {
         if (!region.hasTerrain || !textures.terrains[region.id]) return null;

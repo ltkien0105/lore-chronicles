@@ -4,35 +4,35 @@
  * Displays region name text below the icon
  */
 
-import { memo, useRef } from "react";
 import * as THREE from "three";
-import { useFrame, useThree, type ThreeEvent } from "@react-three/fiber";
+import { memo, useRef } from "react";
 import { Text } from "@react-three/drei";
-import type { RegionConfig } from "./region-config";
-import { Z_LAYERS } from "./region-config";
-import { BeaufortforLOLBold } from "@/assets/fonts";
+import type { PinConfig } from "./pin-config";
+import type { ThreeEvent } from "@react-three/fiber";
+import { Z_LAYERS } from "../regions/region-config";
+// import { BeaufortforLOLBold } from "@/assets/fonts";
 
-interface RegionIconProps {
-  region: RegionConfig;
+interface PinIconProps {
+  pin: PinConfig;
   baseTexture: THREE.Texture;
   hoverTexture: THREE.Texture;
   isHovered: boolean;
   onHover: (regionId: string | null) => void;
 }
 
-function RegionIconInner({
-  region,
+function PinIconInner({
+  pin,
   baseTexture,
   hoverTexture,
   isHovered,
   onHover,
-}: RegionIconProps) {
-  const { camera } = useThree();
+}: PinIconProps) {
   const spriteRef = useRef<THREE.Sprite>(null);
+  const textX = pin.position[0] + pin.iconSize.base[0] / 2 + 0.2; // position text to the right of the icon
 
   const handlePointerOver = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
-    onHover(region.id);
+    onHover(pin.id);
     document.body.style.cursor = "pointer";
   };
 
@@ -43,31 +43,14 @@ function RegionIconInner({
   };
 
   const currentTexture = isHovered ? hoverTexture : baseTexture;
-
-  // Calculate text position below icon
-  const textY = region.position[1] - region.iconSize[1] / 2;
-
-  useFrame(() => {
-    if (spriteRef.current) {
-      const newIconSize = [
-        region.iconSize[0] * (15 / camera.zoom),
-        region.iconSize[1] * (15 / camera.zoom),
-        region.iconSize[2],
-      ];
-      spriteRef.current.scale.set(
-        newIconSize[0],
-        newIconSize[1],
-        newIconSize[2],
-      );
-    }
-  });
+  const currentIconSize = isHovered ? pin.iconSize.hover : pin.iconSize.base;
 
   return (
     <group>
       <sprite
         ref={spriteRef}
-        position={[region.position[0], region.position[1], Z_LAYERS.ICONS]}
-        scale={region.iconSize}
+        position={[pin.position[0], pin.position[1], Z_LAYERS.PINS]}
+        scale={currentIconSize}
         onPointerOver={handlePointerOver}
         onPointerOut={handlePointerOut}
       >
@@ -79,20 +62,20 @@ function RegionIconInner({
         />
       </sprite>
       <Text
-        position={[region.position[0], textY, Z_LAYERS.TEXT]}
-        fontSize={1.3}
+        position={[textX, pin.position[1], Z_LAYERS.TEXT]}
+        fontSize={0.5}
         color={"#ffffff"}
-        anchorX="center"
-        anchorY="top"
+        anchorX="left"
+        anchorY="middle"
         outlineWidth={0.02}
         outlineColor="#000000"
         fontWeight="bold"
-        font={BeaufortforLOLBold}
+        // font={BeaufortforLOLBold}
       >
-        {region.name.toUpperCase()}
+        {pin.name}
       </Text>
     </group>
   );
 }
 
-export const RegionIcon = memo(RegionIconInner);
+export const PinIcon = memo(PinIconInner);
