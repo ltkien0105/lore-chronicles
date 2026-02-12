@@ -100,8 +100,7 @@ export function useRegionTextures(): RegionTextures {
     // Disable premultiplied alpha to preserve original colors
     const textureArray = Array.isArray(textures) ? textures : [textures];
     textureArray.forEach((texture) => {
-      texture.premultiplyAlpha = false;
-      texture.needsUpdate = true;
+      texture.colorSpace = THREE.SRGBColorSpace;
     });
   });
   const terrainTextures = useTexture(allTerrainPaths);
