@@ -11,6 +11,7 @@ import { Text } from "@react-three/drei";
 import type { RegionConfig } from "./region-config";
 import { Z_LAYERS } from "./region-config";
 import { BeaufortforLOLBold } from "@/assets/fonts";
+import { ZOOM_DEFAULT } from "@/lib/constants";
 
 interface RegionIconProps {
   region: RegionConfig;
@@ -50,8 +51,8 @@ function RegionIconInner({
   useFrame(() => {
     if (spriteRef.current) {
       const newIconSize = [
-        region.iconSize[0] * (15 / camera.zoom),
-        region.iconSize[1] * (15 / camera.zoom),
+        region.iconSize[0] * (ZOOM_DEFAULT / camera.zoom),
+        region.iconSize[1] * (ZOOM_DEFAULT / camera.zoom),
         region.iconSize[2],
       ];
       spriteRef.current.scale.set(

@@ -2,9 +2,7 @@ import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import TerrainTexture from "./components/TerrainTexture";
 import MapLogic from "@/components/MapLogic";
-
-const PLANE_SIZE = 100; // Cố định kích thước bản đồ là hình vuông
-const ZOOM_DEFAULT = 15;
+import { PLANE_SIZE, ZOOM_DEFAULT } from "@/lib/constants";
 
 export function App() {
   return (
