@@ -103,6 +103,7 @@ export default function MapLogic({
       screenSpacePanning={true}
       minZoom={minZoom}
       onChange={handleChange}
+      maxZoom={60}
     />
   );
 }

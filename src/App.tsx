@@ -14,6 +14,11 @@ export function App() {
         style={{ background: "#000" }}
       >
         <Suspense fallback={null}>
+          {/* 1. Ambient Light: Soft global light so shadows aren't pitch black */}
+          <ambientLight intensity={0.5} />
+
+          {/* 2. Directional Light: Simulates the sun (creates shadows and 3D depth) */}
+          <directionalLight position={[10, 10, 5]} intensity={5} />
           <TerrainTexture planeWidth={PLANE_SIZE} planeHeight={PLANE_SIZE} />
           <MapLogic planeWidth={PLANE_SIZE} planeHeight={PLANE_SIZE} />
         </Suspense>

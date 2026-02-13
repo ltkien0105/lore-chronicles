@@ -50,15 +50,11 @@ function RegionIconInner({
 
   useFrame(() => {
     if (spriteRef.current) {
-      const newIconSize = [
-        region.iconSize[0] * (ZOOM_DEFAULT / camera.zoom),
-        region.iconSize[1] * (ZOOM_DEFAULT / camera.zoom),
-        region.iconSize[2],
-      ];
+      const sizeFactor = ZOOM_DEFAULT / (camera.zoom === 0 ? 1 : camera.zoom);
       spriteRef.current.scale.set(
-        newIconSize[0],
-        newIconSize[1],
-        newIconSize[2],
+        region.iconSize[0] * sizeFactor,
+        region.iconSize[1] * sizeFactor,
+        region.iconSize[2],
       );
     }
   });
