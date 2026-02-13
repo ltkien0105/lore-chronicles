@@ -1,9 +1,11 @@
 import * as THREE from "three";
-import TerrainMap from "@/assets/images/tiles/terrain_z1.jpg";
-import TerrainDisplacement from "@/assets/images/tiles/depth_z1.jpg";
 import { PinManager } from "./pins/PinManager";
 import { RegionManager } from "./regions/RegionManager";
 import { useTexture } from "@react-three/drei";
+import { useFrame, useThree } from "@react-three/fiber";
+import { useRef } from "react";
+import TerrainMap from "@/assets/images/tiles/terrain_z1.jpg";
+import TerrainDisplacement from "@/assets/images/tiles/depth_z1.jpg";
 
 export default function TerrainTexture({
   planeWidth,
@@ -12,6 +14,7 @@ export default function TerrainTexture({
   planeWidth: number;
   planeHeight: number;
 }) {
+  const { camera } = useThree();
   const terrainTexture = useTexture(
     TerrainMap,
     (texture) => (texture.colorSpace = THREE.SRGBColorSpace),
@@ -20,6 +23,20 @@ export default function TerrainTexture({
     TerrainDisplacement,
     (texture) => (texture.colorSpace = THREE.SRGBColorSpace),
   );
+
+  // Use ref to track visibility without causing re-renders
+  const pinGroupRef = useRef<THREE.Group>(null);
+  const regionGroupRef = useRef<THREE.Group>(null);
+
+  useFrame(() => {
+    if (pinGroupRef.current) {
+      pinGroupRef.current.visible = camera.zoom >= 35;
+    }
+
+    if (regionGroupRef.current) {
+      regionGroupRef.current.visible = camera.zoom < 35;
+    }
+  });
 
   return (
     <group>
@@ -31,10 +48,10 @@ export default function TerrainTexture({
           displacementScale={15}
         />
       </mesh>
-      <group>
+      <group ref={regionGroupRef}>
         <RegionManager planeSize={planeWidth} />
       </group>
-      <group>
+      <group ref={pinGroupRef}>
         <PinManager />
       </group>
     </group>
