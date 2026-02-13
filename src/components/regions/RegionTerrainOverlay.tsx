@@ -59,7 +59,7 @@ function RegionTerrainOverlayInner({
         transparent
         opacity={0}
         depthWrite={false}
-        depthTest={true}
+        depthTest={false}
         blending={THREE.AdditiveBlending}
       />
     </mesh>

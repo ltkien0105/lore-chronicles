@@ -1,8 +1,8 @@
 import * as THREE from "three";
 import TerrainMap from "@/assets/images/tiles/terrain_z1.jpg";
 import TerrainDisplacement from "@/assets/images/tiles/depth_z1.jpg";
-import { PinManager } from "./pins/pin-manager";
-import { RegionManager } from "./regions/region-manager";
+import { PinManager } from "./pins/PinManager";
+import { RegionManager } from "./regions/RegionManager";
 import { useTexture } from "@react-three/drei";
 
 export default function TerrainTexture({
@@ -24,7 +24,7 @@ export default function TerrainTexture({
   return (
     <group>
       <mesh>
-        <planeGeometry args={[planeWidth, planeHeight, 1, 1]} />
+        <planeGeometry args={[planeWidth, planeHeight, 512, 512]} />
         <meshStandardMaterial
           map={terrainTexture}
           displacementMap={terrainDisplacement}

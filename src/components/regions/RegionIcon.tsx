@@ -72,7 +72,7 @@ function RegionIconInner({
           map={currentTexture}
           transparent
           depthWrite={false}
-          depthTest={true}
+          depthTest={false}
         />
       </sprite>
       <Text
@@ -87,6 +87,11 @@ function RegionIconInner({
         font={BeaufortforLOLBold}
       >
         {region.name.toUpperCase()}
+        <meshBasicMaterial
+          attach="material"
+          depthTest={false}
+          depthWrite={false}
+        />
       </Text>
     </group>
   );

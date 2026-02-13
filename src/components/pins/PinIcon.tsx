@@ -58,7 +58,7 @@ function PinIconInner({
           map={currentTexture}
           transparent
           depthWrite={false}
-          depthTest={true}
+          depthTest={false}
         />
       </sprite>
       <Text
@@ -73,6 +73,11 @@ function PinIconInner({
         // font={BeaufortforLOLBold}
       >
         {pin.name}
+        <meshBasicMaterial
+          attach="material"
+          depthTest={false}
+          depthWrite={false}
+        />
       </Text>
     </group>
   );

@@ -1,9 +1,9 @@
 import { useState, useCallback, memo } from "react";
 import { REGIONS } from "./region-config";
 import { useRegionTextures } from "./use-region-textures";
-import { RegionIcon } from "./region-icon";
-import { RegionTerrainOverlay } from "./region-terrain-overlay";
-import { DebugPositionLogger } from "./debug-position-logger";
+import { RegionIcon } from "./RegionIcon";
+import { RegionTerrainOverlay } from "./RegionTerrainOverlay";
+import { DebugPositionLogger } from "./DebugPositionLogger";
 
 interface RegionManagerProps {
   planeSize: number;
