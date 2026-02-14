@@ -6,10 +6,11 @@
 
 import * as THREE from "three";
 import { memo, useRef } from "react";
-import { Text } from "@react-three/drei";
+import { Text, type TextProps } from "@react-three/drei";
 import type { PinConfig } from "./pin-config";
-import type { ThreeEvent } from "@react-three/fiber";
+import { useFrame, useThree, type ThreeEvent } from "@react-three/fiber";
 import { Z_LAYERS } from "../regions/region-config";
+import { ZOOM_DEFAULT } from "@/lib/constants";
 // import { BeaufortforLOLBold } from "@/assets/fonts";
 
 interface PinIconProps {
@@ -27,8 +28,13 @@ function PinIconInner({
   isHovered,
   onHover,
 }: PinIconProps) {
+  const { camera } = useThree();
   const spriteRef = useRef<THREE.Sprite>(null);
-  const textX = pin.position[0] + pin.iconSize.base[0] / 2 + 0.2; // position text to the right of the icon
+  const textRef = useRef<TextProps>(null);
+  const textX =
+    pin.anchorX === "right"
+      ? pin.position[0] - pin.iconSize.base[0] / 2 - 0.2
+      : pin.position[0] + pin.iconSize.base[0] / 2 + 0.2; // position text to the right of the icon
 
   const handlePointerOver = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
@@ -44,6 +50,12 @@ function PinIconInner({
 
   const currentTexture = isHovered ? hoverTexture : baseTexture;
   const currentIconSize = isHovered ? pin.iconSize.hover : pin.iconSize.base;
+
+  useFrame(() => {
+    if (textRef.current) {
+      textRef.current.fontSize = 1 * (ZOOM_DEFAULT / camera.zoom); // Adjust text size based on zoom to keep it readable
+    }
+  });
 
   return (
     <group>
@@ -62,10 +74,11 @@ function PinIconInner({
         />
       </sprite>
       <Text
+        ref={textRef}
         position={[textX, pin.position[1], Z_LAYERS.TEXT]}
         fontSize={0.5}
         color={"#ffffff"}
-        anchorX="left"
+        anchorX={pin.anchorX || "left"}
         anchorY="middle"
         outlineWidth={0.02}
         outlineColor="#000000"
