@@ -1,11 +1,9 @@
 import * as THREE from "three";
 import { PinManager } from "./pins/PinManager";
 import { RegionManager } from "./regions/RegionManager";
-import { useTexture } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useRef } from "react";
-import TerrainMap from "@/assets/images/tiles/terrain_z1.jpg";
-import TerrainDisplacement from "@/assets/images/tiles/depth_z1.jpg";
+import { TerrainLodMesh } from "./terrain-lod";
 
 export default function TerrainTexture({
   planeWidth,
@@ -15,14 +13,6 @@ export default function TerrainTexture({
   planeHeight: number;
 }) {
   const { camera } = useThree();
-  const terrainTexture = useTexture(
-    TerrainMap,
-    (texture) => (texture.colorSpace = THREE.SRGBColorSpace),
-  );
-  const terrainDisplacement = useTexture(
-    TerrainDisplacement,
-    (texture) => (texture.colorSpace = THREE.SRGBColorSpace),
-  );
 
   // Use ref to track visibility without causing re-renders
   const pinGroupRef = useRef<THREE.Group>(null);
@@ -40,14 +30,9 @@ export default function TerrainTexture({
 
   return (
     <group>
-      <mesh>
-        <planeGeometry args={[planeWidth, planeHeight, 512, 512]} />
-        <meshStandardMaterial
-          map={terrainTexture}
-          displacementMap={terrainDisplacement}
-          displacementScale={15}
-        />
-      </mesh>
+      {/* LOD Terrain: switches between low-res (2048x2048) and high-res tiles (8x8 grid of 1024x1024) */}
+      <TerrainLodMesh planeSize={planeWidth} />
+
       <group ref={regionGroupRef}>
         <RegionManager planeSize={planeWidth} />
       </group>
