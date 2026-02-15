@@ -12,7 +12,6 @@ import {
   TILE_LOAD_RADIUS,
 } from "./tile-grid-config";
 import { useTileStore } from "./use-tile-store";
-import { jsx } from "react/jsx-runtime";
 
 // Import low-res terrain for fallback
 import TerrainMapLowRes from "@/assets/images/tiles/terrain_z1.jpg";
