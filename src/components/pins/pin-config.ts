@@ -228,7 +228,18 @@ const NOXUS_PINS: PinConfig[] = [
       base: PIN_ICON_SIZE_BASE,
       hover: PIN_ICON_SIZE_HOVER,
     },
-    anchorX: "right",
+  },
+];
+
+const BILGEwATER_PINS: PinConfig[] = [
+  {
+    id: "bilgewater-bay",
+    name: "Bilgewater Bay",
+    position: [24.7, -9.2],
+    iconSize: {
+      base: PIN_ICON_SIZE_BASE,
+      hover: PIN_ICON_SIZE_HOVER,
+    },
   },
 ];
 
@@ -237,4 +248,5 @@ export const PINS: PinConfig[] = [
   ...FRELJORD_PINS,
   ...DEMACIA_PINS,
   ...NOXUS_PINS,
+  ...BILGEwATER_PINS,
 ];
