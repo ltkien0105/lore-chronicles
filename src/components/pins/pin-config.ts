@@ -179,4 +179,48 @@ const FRELJORD_PINS: PinConfig[] = [
   },
 ];
 
-export const PINS: PinConfig[] = [...IONIA_PINS, ...FRELJORD_PINS];
+const DEMACIA_PINS: PinConfig[] = [
+  {
+    id: "fossbarrow",
+    name: "Fossbarrow",
+    position: [-24.5, 4.1],
+    iconSize: {
+      base: PIN_ICON_SIZE_BASE,
+      hover: PIN_ICON_SIZE_HOVER,
+    },
+    anchorX: "right",
+  },
+  {
+    id: "high-silvermere",
+    name: "High Silvermere",
+    position: [-23.7, 4.1],
+    iconSize: {
+      base: PIN_ICON_SIZE_BASE,
+      hover: PIN_ICON_SIZE_HOVER,
+    },
+  },
+  {
+    id: "uwendale",
+    name: "Uwendale",
+    position: [-19.9, 5.4],
+    iconSize: {
+      base: PIN_ICON_SIZE_BASE,
+      hover: PIN_ICON_SIZE_HOVER,
+    },
+  },
+  {
+    id: "trevale",
+    name: "Trevale",
+    position: [-15.5, -3.5],
+    iconSize: {
+      base: PIN_ICON_SIZE_BASE,
+      hover: PIN_ICON_SIZE_HOVER,
+    },
+  },
+];
+
+export const PINS: PinConfig[] = [
+  ...IONIA_PINS,
+  ...FRELJORD_PINS,
+  ...DEMACIA_PINS,
+];
