@@ -1,0 +1,65 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0" version="29.3.8">
+  <diagram name="Page-1" id="BdspRqBSBwur0ev00lnu">
+    <mxGraphModel dx="996" dy="586" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ykEjF72lCvao2rd-4lFM-3" edge="1" parent="1" source="ykEjF72lCvao2rd-4lFM-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="ykEjF72lCvao2rd-4lFM-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ykEjF72lCvao2rd-4lFM-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Terrain LOD Flow" vertex="1">
+          <mxGeometry height="60" width="120" x="340" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ykEjF72lCvao2rd-4lFM-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Load low resolution terrain" vertex="1">
+          <mxGeometry height="60" width="180" x="310" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="ykEjF72lCvao2rd-4lFM-10" edge="1" parent="1" source="ykEjF72lCvao2rd-4lFM-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="ykEjF72lCvao2rd-4lFM-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ykEjF72lCvao2rd-4lFM-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="loadTileTexture(index)" vertex="1">
+          <mxGeometry height="60" width="140" x="570" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ykEjF72lCvao2rd-4lFM-6" edge="1" parent="1" source="ykEjF72lCvao2rd-4lFM-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="930" y="150" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ykEjF72lCvao2rd-4lFM-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Mark loading" vertex="1">
+          <mxGeometry height="60" width="120" x="750" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ykEjF72lCvao2rd-4lFM-9" edge="1" parent="1" source="ykEjF72lCvao2rd-4lFM-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="ykEjF72lCvao2rd-4lFM-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ykEjF72lCvao2rd-4lFM-7" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Load texture" vertex="1">
+          <mxGeometry height="60" width="120" x="930" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ykEjF72lCvao2rd-4lFM-8" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Mark Loaded" vertex="1">
+          <mxGeometry height="60" width="120" x="1090" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ykEjF72lCvao2rd-4lFM-12" edge="1" parent="1" source="ykEjF72lCvao2rd-4lFM-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="ykEjF72lCvao2rd-4lFM-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ykEjF72lCvao2rd-4lFM-13" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="updateTiles(cameraX, cameraY)" vertex="1">
+          <mxGeometry height="60" width="190" x="520" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="ykEjF72lCvao2rd-4lFM-14" edge="1" parent="1" source="ykEjF72lCvao2rd-4lFM-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="ykEjF72lCvao2rd-4lFM-17">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="930" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ykEjF72lCvao2rd-4lFM-15" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Convert world position to grid position with&amp;nbsp;&lt;b&gt;worldPositionToGridPosition&lt;/b&gt; function. For examaple, with plane size 100, world coordinate (6, 1) -&amp;gt; grid coordinate (4, 4)&lt;div&gt;Note: grid index in range 1...7&lt;/div&gt;" vertex="1">
+          <mxGeometry height="110" width="220" x="750" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="ykEjF72lCvao2rd-4lFM-16" edge="1" parent="1" source="ykEjF72lCvao2rd-4lFM-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="ykEjF72lCvao2rd-4lFM-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ykEjF72lCvao2rd-4lFM-17" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Check if same position" vertex="1">
+          <mxGeometry height="60" width="120" x="1010" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="ykEjF72lCvao2rd-4lFM-18" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Mark Loaded" vertex="1">
+          <mxGeometry height="60" width="120" x="1150" y="210" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

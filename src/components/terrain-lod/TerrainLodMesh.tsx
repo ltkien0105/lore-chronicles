@@ -199,7 +199,7 @@ export function TerrainLodMesh({ planeSize }: TerrainLodMeshProps) {
       updateTiles(cameraX, cameraY);
 
       // Update tile opacities based on loaded state
-      tileRefs.current.forEach((ref, index) => {
+      tileRefs.current.forEach((ref, _) => {
         if (ref.mesh) {
           const material = ref.mesh.material as THREE.MeshBasicMaterial;
           material.opacity = ref.loaded ? 1 : 0;

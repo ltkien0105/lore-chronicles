@@ -10,15 +10,16 @@ export const TILE_COUNT = GRID_SIZE * GRID_SIZE;
 export const LOD_ZOOM_THRESHOLD = 35;
 
 // How many tiles to load around the visible center (radius)
-export const TILE_LOAD_RADIUS = 1;
+export const TILE_LOAD_RADIUS = 2;
 
 /**
  * Convert tile index (1-64) to grid position (row, col)
  * Tiles are numbered 01-64 from top-left, row by row
  */
-export function tileIndexToGridPosition(
-  index: number
-): { row: number; col: number } {
+export function tileIndexToGridPosition(index: number): {
+  row: number;
+  col: number;
+} {
   const adjustedIndex = index - 1; // Convert 1-based to 0-based
   const row = Math.floor(adjustedIndex / GRID_SIZE);
   const col = adjustedIndex % GRID_SIZE;
@@ -39,7 +40,7 @@ export function gridPositionToTileIndex(row: number, col: number): number {
 export function getTileWorldPosition(
   row: number,
   col: number,
-  planeSize: number
+  planeSize: number,
 ): { x: number; y: number } {
   const tileSize = planeSize / GRID_SIZE;
   const halfPlane = planeSize / 2;
@@ -59,7 +60,7 @@ export function getTileWorldPosition(
 export function worldPositionToGridPosition(
   worldX: number,
   worldY: number,
-  planeSize: number
+  planeSize: number,
 ): { row: number; col: number } {
   const tileSize = planeSize / GRID_SIZE;
   const halfPlane = planeSize / 2;
@@ -82,7 +83,7 @@ export function worldPositionToGridPosition(
 export function getTilesToLoad(
   centerRow: number,
   centerCol: number,
-  radius: number = TILE_LOAD_RADIUS
+  radius: number = TILE_LOAD_RADIUS,
 ): number[] {
   const tiles: number[] = [];
 
