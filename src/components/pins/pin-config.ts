@@ -219,8 +219,22 @@ const DEMACIA_PINS: PinConfig[] = [
   },
 ];
 
+const NOXUS_PINS: PinConfig[] = [
+  {
+    id: "basilich",
+    name: "Basilich",
+    position: [15.1, 0.3],
+    iconSize: {
+      base: PIN_ICON_SIZE_BASE,
+      hover: PIN_ICON_SIZE_HOVER,
+    },
+    anchorX: "right",
+  },
+];
+
 export const PINS: PinConfig[] = [
   ...IONIA_PINS,
   ...FRELJORD_PINS,
   ...DEMACIA_PINS,
+  ...NOXUS_PINS,
 ];
