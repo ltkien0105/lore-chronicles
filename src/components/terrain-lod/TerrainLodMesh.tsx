@@ -184,27 +184,52 @@ export function TerrainLodMesh({ planeSize }: TerrainLodMeshProps) {
     const zoom = camera.zoom;
     const isZoomedIn = zoom >= LOD_ZOOM_THRESHOLD;
 
-    // Toggle visibility
-    if (lowResMeshRef.current) {
-      lowResMeshRef.current.visible = !isZoomedIn;
-    }
-    if (highResGroupRef.current) {
-      highResGroupRef.current.visible = isZoomedIn;
-    }
+    // Count how many tiles are loaded in the visible area
+    let loadedTileCount = 0;
+    let totalVisibleTiles = 0;
 
-    // Load tiles when zoomed in
     if (isZoomedIn) {
       const cameraX = camera.position.x;
       const cameraY = camera.position.y;
       updateTiles(cameraX, cameraY);
 
+      // Check tiles in the camera's visible area
+      const { row: centerRow, col: centerCol } = worldPositionToGridPosition(
+        cameraX,
+        cameraY,
+        planeSize,
+      );
+      const visibleTiles = getTilesToLoad(centerRow, centerCol, TILE_LOAD_RADIUS);
+      totalVisibleTiles = visibleTiles.length;
+
+      for (const tileIndex of visibleTiles) {
+        const ref = tileRefs.current.get(tileIndex);
+        if (ref?.loaded) {
+          loadedTileCount++;
+        }
+      }
+
       // Update tile opacities based on loaded state
-      tileRefs.current.forEach((ref, _) => {
+      tileRefs.current.forEach((ref) => {
         if (ref.mesh) {
           const material = ref.mesh.material as THREE.MeshBasicMaterial;
           material.opacity = ref.loaded ? 1 : 0;
         }
       });
+    }
+
+    // Determine if enough tiles are loaded to hide low-res
+    // Keep low-res visible until at least 50% of visible tiles are loaded
+    const hasEnoughTilesLoaded =
+      totalVisibleTiles > 0 && loadedTileCount >= totalVisibleTiles * 0.5;
+
+    // Toggle visibility - keep low-res as fallback until tiles load
+    if (lowResMeshRef.current) {
+      // Show low-res when zoomed out OR when zoomed in but tiles not loaded yet
+      lowResMeshRef.current.visible = !isZoomedIn || !hasEnoughTilesLoaded;
+    }
+    if (highResGroupRef.current) {
+      highResGroupRef.current.visible = isZoomedIn;
     }
   });
 
