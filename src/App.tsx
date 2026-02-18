@@ -19,7 +19,7 @@ export function App() {
 
           {/* 2. Directional Light: Simulates the sun (creates shadows and 3D depth) */}
           <directionalLight position={[10, 10, 5]} intensity={5} />
-          <TerrainTexture planeWidth={PLANE_SIZE} planeHeight={PLANE_SIZE} />
+          <TerrainTexture planeSize={PLANE_SIZE} />
           <MapLogic planeWidth={PLANE_SIZE} planeHeight={PLANE_SIZE} />
         </Suspense>
       </Canvas>
