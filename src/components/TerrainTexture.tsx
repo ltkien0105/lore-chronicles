@@ -6,11 +6,9 @@ import { useRef } from "react";
 import { TerrainLodMesh } from "./terrain-lod";
 
 export default function TerrainTexture({
-  planeWidth,
-  planeHeight,
+  planeSize,
 }: {
-  planeWidth: number;
-  planeHeight: number;
+  planeSize: number;
 }) {
   const { camera } = useThree();
 
@@ -31,10 +29,10 @@ export default function TerrainTexture({
   return (
     <group>
       {/* LOD Terrain: switches between low-res (2048x2048) and high-res tiles (8x8 grid of 1024x1024) */}
-      <TerrainLodMesh planeSize={planeWidth} />
+      <TerrainLodMesh planeSize={planeSize} />
 
       <group ref={regionGroupRef}>
-        <RegionManager planeSize={planeWidth} />
+        <RegionManager planeSize={planeSize} />
       </group>
       <group ref={pinGroupRef}>
         <PinManager />
