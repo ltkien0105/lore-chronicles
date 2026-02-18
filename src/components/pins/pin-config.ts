@@ -243,10 +243,59 @@ const BILGEwATER_PINS: PinConfig[] = [
   },
 ];
 
+const SHURIMA_PINS: PinConfig[] = [
+  {
+    id: "belzhun",
+    name: "Bel'zhun",
+    position: [6.8, -9.1],
+    iconSize: {
+      base: PIN_ICON_SIZE_BASE,
+      hover: PIN_ICON_SIZE_HOVER,
+    },
+  },
+  {
+    id: "nashramae",
+    name: "Nashramae",
+    position: [0, -10.7],
+    iconSize: {
+      base: PIN_ICON_SIZE_BASE,
+      hover: PIN_ICON_SIZE_HOVER,
+    },
+  },
+  {
+    id: "the-city-of-gardens",
+    name: "The City of Gardens",
+    position: [-4, -21.2],
+    iconSize: {
+      base: PIN_ICON_SIZE_BASE,
+      hover: PIN_ICON_SIZE_HOVER,
+    },
+  },
+  {
+    id: "zirima",
+    name: "Zirima",
+    position: [0, -23.6],
+    iconSize: {
+      base: PIN_ICON_SIZE_BASE,
+      hover: PIN_ICON_SIZE_HOVER,
+    },
+  },
+  {
+    id: "marrowmark",
+    name: "Marrowmark",
+    position: [2.5, -21.6],
+    iconSize: {
+      base: PIN_ICON_SIZE_BASE,
+      hover: PIN_ICON_SIZE_HOVER,
+    },
+  },
+];
+
 export const PINS: PinConfig[] = [
   ...IONIA_PINS,
   ...FRELJORD_PINS,
   ...DEMACIA_PINS,
   ...NOXUS_PINS,
   ...BILGEwATER_PINS,
+  ...SHURIMA_PINS,
 ];
