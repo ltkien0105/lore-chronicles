@@ -5,7 +5,6 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { useRef, useMemo } from "react";
 import { TerrainLodMesh } from "./terrain-lod";
 import { useTexture } from "@react-three/drei";
-import { ZOOM_DEFAULT } from "@/lib/constants";
 
 // Import bottom row tiles for background extension (tiles 57-64 = bottom row of 8x8 grid)
 import Tile57 from "@/images/tiles/en_us/terrain_z2_57.jpg";
