@@ -1,11 +1,5 @@
-// import { TownMedHover } from "@/assets/images/pins";
-
 const PIN_ICON_SIZE_BASE: [number, number, number] = [0.7, 0.7, 1];
 const PIN_ICON_SIZE_HOVER: [number, number, number] = [1.5, 1.5, 1];
-
-// const PIN_PATHS: Record<string, string> = {
-//   townMedHover: TownMedHover,
-// };
 
 export interface PinConfig {
   id: string;
