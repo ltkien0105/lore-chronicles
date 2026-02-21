@@ -12,6 +12,7 @@ import type { RegionConfig } from "./region-config";
 import { Z_LAYERS } from "./region-config";
 import { BeaufortforLOLBold } from "@/assets/fonts";
 import { ZOOM_DEFAULT } from "@/lib/constants";
+import { getEffectiveZoom } from "@/lib/utils";
 
 interface RegionIconProps {
   region: RegionConfig;
@@ -28,7 +29,7 @@ function RegionIconInner({
   isHovered,
   onHover,
 }: RegionIconProps) {
-  const { camera } = useThree();
+  const { camera, size } = useThree();
   const spriteRef = useRef<THREE.Sprite>(null);
 
   const handlePointerOver = (e: ThreeEvent<PointerEvent>) => {
@@ -50,7 +51,11 @@ function RegionIconInner({
 
   useFrame(() => {
     if (spriteRef.current) {
-      const sizeFactor = ZOOM_DEFAULT / (camera.zoom === 0 ? 1 : camera.zoom);
+      const effectiveZoom = getEffectiveZoom(
+        camera as THREE.PerspectiveCamera,
+        size,
+      );
+      const sizeFactor = ZOOM_DEFAULT / (effectiveZoom === 0 ? 1 : effectiveZoom);
       spriteRef.current.scale.set(
         region.iconSize[0] * sizeFactor,
         region.iconSize[1] * sizeFactor,

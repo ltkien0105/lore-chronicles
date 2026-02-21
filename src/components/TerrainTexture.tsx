@@ -5,6 +5,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { useRef, useMemo } from "react";
 import { TerrainLodMesh } from "./terrain-lod";
 import { useTexture } from "@react-three/drei";
+import { getEffectiveZoom } from "@/lib/utils";
 
 // Import bottom row tiles for background extension (tiles 57-64 = bottom row of 8x8 grid)
 import Tile57 from "@/images/tiles/en_us/terrain_z2_57.jpg";
@@ -30,7 +31,7 @@ export default function TerrainTexture({
 }: {
   planeSize: number;
 }) {
-  const { camera } = useThree();
+  const { camera, size } = useThree();
 
   // Load bottom row textures for background extension
   const bottomRowTextures = useTexture(
@@ -52,19 +53,24 @@ export default function TerrainTexture({
   const currentTilt = useRef(0);
 
   useFrame(() => {
+    const effectiveZoom = getEffectiveZoom(
+      camera as THREE.PerspectiveCamera,
+      size,
+    );
+
     if (pinGroupRef.current) {
-      pinGroupRef.current.visible = camera.zoom >= 35;
+      pinGroupRef.current.visible = effectiveZoom >= 35;
     }
 
     if (regionGroupRef.current) {
-      regionGroupRef.current.visible = camera.zoom < 35;
+      regionGroupRef.current.visible = effectiveZoom < 35;
     }
 
     // Calculate target tilt based on zoom level
     if (terrainGroupRef.current) {
       // Normalize zoom to 0-1 range within tilt range
       const zoomNormalized = THREE.MathUtils.clamp(
-        (camera.zoom - TILT_CONFIG.MIN_ZOOM) /
+        (effectiveZoom - TILT_CONFIG.MIN_ZOOM) /
           (TILT_CONFIG.MAX_ZOOM - TILT_CONFIG.MIN_ZOOM),
         0,
         1,
@@ -84,7 +90,7 @@ export default function TerrainTexture({
 
       // Apply X-axis rotation around camera target (not world origin)
       // This prevents the bottom of map from rotating out of view
-      const cameraTarget = (camera as THREE.OrthographicCamera).position;
+      const cameraTarget = camera.position;
 
       // Reset transform
       terrainGroupRef.current.position.set(0, 0, 0);

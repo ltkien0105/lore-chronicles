@@ -2,6 +2,7 @@ import { useRef, useMemo, useEffect, useCallback, type JSX } from "react";
 import * as THREE from "three";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
+import { getEffectiveZoom } from "@/lib/utils";
 import {
   GRID_SIZE,
   LOD_ZOOM_THRESHOLD,
@@ -33,7 +34,7 @@ interface TerrainLodMeshProps {
 }
 
 export function TerrainLodMesh({ planeSize }: TerrainLodMeshProps) {
-  const { camera } = useThree();
+  const { camera, size } = useThree();
   const tileSize = planeSize / GRID_SIZE;
 
   // Low-res texture for fallback/far view
@@ -181,8 +182,11 @@ export function TerrainLodMesh({ planeSize }: TerrainLodMeshProps) {
 
   // Update visibility and load tiles on each frame
   useFrame(() => {
-    const zoom = camera.zoom;
-    const isZoomedIn = zoom >= LOD_ZOOM_THRESHOLD;
+    const effectiveZoom = getEffectiveZoom(
+      camera as THREE.PerspectiveCamera,
+      size,
+    );
+    const isZoomedIn = effectiveZoom >= LOD_ZOOM_THRESHOLD;
 
     // Count how many tiles are loaded in the visible area
     let loadedTileCount = 0;

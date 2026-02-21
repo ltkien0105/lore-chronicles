@@ -1,8 +1,13 @@
 import * as THREE from "three";
 import { useFrame, useThree } from "@react-three/fiber";
-import { useMemo, useRef, useCallback } from "react";
+import { useMemo, useRef, useCallback, useEffect } from "react";
 import { MapControls as MapControlsImpl } from "three-stdlib";
 import { MapControls } from "@react-three/drei";
+import {
+  DEFAULT_FOV,
+  ZOOM_DEFAULT
+} from "@/lib/constants";
+import { getDistanceForZoom, getEffectiveZoom } from "@/lib/utils";
 
 export default function MapLogic({
   planeWidth,
@@ -12,6 +17,7 @@ export default function MapLogic({
   planeHeight: number;
 }) {
   const { camera, size } = useThree();
+  const perspectiveCamera = camera as THREE.PerspectiveCamera;
   const controlsRef = useRef<MapControlsImpl>(null);
 
   const minZoom = useMemo(() => {
@@ -20,9 +26,17 @@ export default function MapLogic({
     return Math.max(zoomX, zoomY);
   }, [size, planeWidth, planeHeight]);
 
+  const minDistance = useMemo(() => {
+    return getDistanceForZoom(60, size, DEFAULT_FOV);
+  }, [size]);
+
+  const maxDistance = useMemo(() => {
+    return getDistanceForZoom(minZoom, size, DEFAULT_FOV);
+  }, [minZoom, size]);
+
   // Calculate pan limits based on current zoom
   const getPanLimits = useCallback(() => {
-    const zoom = camera.zoom;
+    const zoom = getEffectiveZoom(perspectiveCamera, size);
 
     // Calculate visible area in world units
     const halfVisibleWidth = size.width / zoom / 2;
@@ -36,7 +50,7 @@ export default function MapLogic({
     const maxPanY = Math.max(0, halfPlaneHeight - halfVisibleHeight); // fixed
 
     return { maxPanX, maxPanY };
-  }, [camera, size, planeWidth, planeHeight]);
+  }, [perspectiveCamera, size, planeWidth, planeHeight]);
 
   // Handle change event from MapControls to clamp position
   const handleChange = useCallback(() => {
@@ -70,6 +84,14 @@ export default function MapLogic({
     camera.position.y += deltaY;
   }, [camera, getPanLimits]);
 
+  // Keep camera distance in sync with default zoom when size changes
+  useEffect(() => {
+    const distance = getDistanceForZoom(ZOOM_DEFAULT, size, DEFAULT_FOV);
+    perspectiveCamera.position.z = distance;
+    perspectiveCamera.updateProjectionMatrix();
+    controlsRef.current?.update();
+  }, [perspectiveCamera, size]);
+
   // Also clamp on zoom changes
   useFrame(() => {
     const controls = controlsRef.current;
@@ -101,9 +123,9 @@ export default function MapLogic({
       enableRotate={false}
       enablePan={true}
       screenSpacePanning={true}
-      minZoom={minZoom}
+      minDistance={minDistance}
+      maxDistance={maxDistance}
       onChange={handleChange}
-      maxZoom={60}
     />
   );
 }

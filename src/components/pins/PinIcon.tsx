@@ -11,6 +11,7 @@ import type { PinConfig } from "./pin-config";
 import { useFrame, useThree, type ThreeEvent } from "@react-three/fiber";
 import { Z_LAYERS } from "../regions/region-config";
 import { ZOOM_DEFAULT } from "@/lib/constants";
+import { getEffectiveZoom } from "@/lib/utils";
 // import { BeaufortforLOLBold } from "@/assets/fonts";
 
 interface PinIconProps {
@@ -28,7 +29,7 @@ function PinIconInner({
   isHovered,
   onHover,
 }: PinIconProps) {
-  const { camera } = useThree();
+  const { camera, size } = useThree();
   const spriteRef = useRef<THREE.Sprite>(null);
   const textRef = useRef<TextProps>(null);
   const textX =
@@ -53,7 +54,11 @@ function PinIconInner({
 
   useFrame(() => {
     if (textRef.current) {
-      textRef.current.fontSize = 1 * (ZOOM_DEFAULT / camera.zoom); // Adjust text size based on zoom to keep it readable
+      const effectiveZoom = getEffectiveZoom(
+        camera as THREE.PerspectiveCamera,
+        size,
+      );
+      textRef.current.fontSize = 1 * (ZOOM_DEFAULT / effectiveZoom); // Adjust text size based on zoom to keep it readable
     }
   });
 

@@ -2,14 +2,13 @@ import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import TerrainTexture from "./components/TerrainTexture";
 import MapLogic from "@/components/MapLogic";
-import { PLANE_SIZE, ZOOM_DEFAULT } from "@/lib/constants";
+import { DEFAULT_FOV, PLANE_SIZE } from "@/lib/constants";
 
 export function App() {
   return (
     <div className="w-screen h-screen">
       <Canvas
-        orthographic
-        camera={{ position: [0, 0, 10], zoom: ZOOM_DEFAULT }}
+        camera={{ position: [0, 0, 10], fov: DEFAULT_FOV, near: 0.1, far: 200 }}
         gl={{ alpha: false }}
         style={{ background: "#000" }}
       >
