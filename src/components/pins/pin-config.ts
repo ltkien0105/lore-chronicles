@@ -1,6 +1,9 @@
 const PIN_ICON_SIZE_BASE: [number, number, number] = [0.7, 0.7, 1];
 const PIN_ICON_SIZE_HOVER: [number, number, number] = [1.5, 1.5, 1];
 
+const Pin = {TOWN: "town", TOWN_MED: "town-med"} as const;
+type PinType = typeof Pin[keyof typeof Pin];
+
 export interface PinConfig {
   id: string;
   name: string;
@@ -10,6 +13,7 @@ export interface PinConfig {
     hover: [number, number, number];
   };
   anchorX?: number | "center" | "left" | "right" | undefined;
+  pinType: PinType;
 }
 
 const IONIA_PINS: PinConfig[] = [
@@ -21,6 +25,7 @@ const IONIA_PINS: PinConfig[] = [
       base: PIN_ICON_SIZE_BASE,
       hover: PIN_ICON_SIZE_HOVER,
     },
+    pinType: Pin.TOWN_MED,
   },
   {
     id: "kinkou-monastery",
@@ -30,6 +35,7 @@ const IONIA_PINS: PinConfig[] = [
       base: PIN_ICON_SIZE_BASE,
       hover: PIN_ICON_SIZE_HOVER,
     },
+    pinType: Pin.TOWN_MED,
   },
   {
     id: "temple-of-pallas",
@@ -38,7 +44,9 @@ const IONIA_PINS: PinConfig[] = [
     iconSize: {
       base: PIN_ICON_SIZE_BASE,
       hover: PIN_ICON_SIZE_HOVER,
+      
     },
+    pinType: Pin.TOWN_MED,
   },
 ];
 
@@ -51,6 +59,7 @@ const FRELJORD_PINS: PinConfig[] = [
       base: PIN_ICON_SIZE_BASE,
       hover: PIN_ICON_SIZE_HOVER,
     },
+    pinType: Pin.TOWN_MED,
   },
   {
     id: "foundling-village",
@@ -60,6 +69,7 @@ const FRELJORD_PINS: PinConfig[] = [
       base: PIN_ICON_SIZE_BASE,
       hover: PIN_ICON_SIZE_HOVER,
     },
+    pinType: Pin.TOWN_MED,
   },
   {
     id: "naljaag",
@@ -69,6 +79,7 @@ const FRELJORD_PINS: PinConfig[] = [
       base: PIN_ICON_SIZE_BASE,
       hover: PIN_ICON_SIZE_HOVER,
     },
+    pinType: Pin.TOWN_MED,
   },
   {
     id: "vathcaer",
@@ -78,6 +89,7 @@ const FRELJORD_PINS: PinConfig[] = [
       base: PIN_ICON_SIZE_BASE,
       hover: PIN_ICON_SIZE_HOVER,
     },
+    pinType: Pin.TOWN_MED,
   },
   {
     id: "ornnkaal-rocks",
@@ -88,6 +100,7 @@ const FRELJORD_PINS: PinConfig[] = [
       hover: PIN_ICON_SIZE_HOVER,
     },
     anchorX: "right",
+    pinType: Pin.TOWN_MED,
   },
   {
     id: "yadulsk",
@@ -97,6 +110,7 @@ const FRELJORD_PINS: PinConfig[] = [
       base: PIN_ICON_SIZE_BASE,
       hover: PIN_ICON_SIZE_HOVER,
     },
+    pinType: Pin.TOWN_MED,
   },
   {
     id: "quchar",
@@ -107,6 +121,7 @@ const FRELJORD_PINS: PinConfig[] = [
       hover: PIN_ICON_SIZE_HOVER,
     },
     anchorX: "right",
+    pinType: Pin.TOWN_MED,
   },
   {
     id: "village-of-the-ice-children",
@@ -116,6 +131,7 @@ const FRELJORD_PINS: PinConfig[] = [
       base: PIN_ICON_SIZE_BASE,
       hover: PIN_ICON_SIZE_HOVER,
     },
+    pinType: Pin.TOWN_MED,
   },
   {
     id: "ghulfrost",
@@ -125,6 +141,7 @@ const FRELJORD_PINS: PinConfig[] = [
       base: PIN_ICON_SIZE_BASE,
       hover: PIN_ICON_SIZE_HOVER,
     },
+    pinType: Pin.TOWN_MED,
   },
   {
     id: "rakelstake",
@@ -134,6 +151,7 @@ const FRELJORD_PINS: PinConfig[] = [
       base: PIN_ICON_SIZE_BASE,
       hover: PIN_ICON_SIZE_HOVER,
     },
+    pinType: Pin.TOWN_MED,
   },
   {
     id: "glaserport",
@@ -143,6 +161,7 @@ const FRELJORD_PINS: PinConfig[] = [
       base: PIN_ICON_SIZE_BASE,
       hover: PIN_ICON_SIZE_HOVER,
     },
+    pinType: Pin.TOWN_MED,
   },
   {
     id: "ryganns-reach",
@@ -152,6 +171,7 @@ const FRELJORD_PINS: PinConfig[] = [
       base: PIN_ICON_SIZE_BASE,
       hover: PIN_ICON_SIZE_HOVER,
     },
+    pinType: Pin.TOWN_MED,
   },
   {
     id: "valars-hollow",
@@ -161,6 +181,7 @@ const FRELJORD_PINS: PinConfig[] = [
       base: PIN_ICON_SIZE_BASE,
       hover: PIN_ICON_SIZE_HOVER,
     },
+    pinType: Pin.TOWN_MED,
   },
   {
     id: "frostheld",
@@ -170,6 +191,7 @@ const FRELJORD_PINS: PinConfig[] = [
       base: PIN_ICON_SIZE_BASE,
       hover: PIN_ICON_SIZE_HOVER,
     },
+    pinType: Pin.TOWN_MED,
   },
 ];
 
@@ -183,6 +205,7 @@ const DEMACIA_PINS: PinConfig[] = [
       hover: PIN_ICON_SIZE_HOVER,
     },
     anchorX: "right",
+    pinType: Pin.TOWN_MED,
   },
   {
     id: "high-silvermere",
@@ -192,6 +215,7 @@ const DEMACIA_PINS: PinConfig[] = [
       base: PIN_ICON_SIZE_BASE,
       hover: PIN_ICON_SIZE_HOVER,
     },
+    pinType: Pin.TOWN_MED,
   },
   {
     id: "uwendale",
@@ -201,6 +225,7 @@ const DEMACIA_PINS: PinConfig[] = [
       base: PIN_ICON_SIZE_BASE,
       hover: PIN_ICON_SIZE_HOVER,
     },
+    pinType: Pin.TOWN_MED,
   },
   {
     id: "trevale",
@@ -210,6 +235,7 @@ const DEMACIA_PINS: PinConfig[] = [
       base: PIN_ICON_SIZE_BASE,
       hover: PIN_ICON_SIZE_HOVER,
     },
+    pinType: Pin.TOWN_MED,
   },
 ];
 
@@ -222,6 +248,7 @@ const NOXUS_PINS: PinConfig[] = [
       base: PIN_ICON_SIZE_BASE,
       hover: PIN_ICON_SIZE_HOVER,
     },
+    pinType: Pin.TOWN_MED,
   },
 ];
 
@@ -234,6 +261,7 @@ const BILGEwATER_PINS: PinConfig[] = [
       base: PIN_ICON_SIZE_BASE,
       hover: PIN_ICON_SIZE_HOVER,
     },
+    pinType: Pin.TOWN_MED,
   },
 ];
 
@@ -246,6 +274,7 @@ const SHURIMA_PINS: PinConfig[] = [
       base: PIN_ICON_SIZE_BASE,
       hover: PIN_ICON_SIZE_HOVER,
     },
+    pinType: Pin.TOWN_MED,
   },
   {
     id: "nashramae",
@@ -255,6 +284,7 @@ const SHURIMA_PINS: PinConfig[] = [
       base: PIN_ICON_SIZE_BASE,
       hover: PIN_ICON_SIZE_HOVER,
     },
+    pinType: Pin.TOWN_MED,
   },
   {
     id: "the-city-of-gardens",
@@ -264,6 +294,7 @@ const SHURIMA_PINS: PinConfig[] = [
       base: PIN_ICON_SIZE_BASE,
       hover: PIN_ICON_SIZE_HOVER,
     },
+    pinType: Pin.TOWN_MED,
   },
   {
     id: "zirima",
@@ -273,6 +304,7 @@ const SHURIMA_PINS: PinConfig[] = [
       base: PIN_ICON_SIZE_BASE,
       hover: PIN_ICON_SIZE_HOVER,
     },
+    pinType: Pin.TOWN_MED,
   },
   {
     id: "marrowmark",
@@ -282,6 +314,7 @@ const SHURIMA_PINS: PinConfig[] = [
       base: PIN_ICON_SIZE_BASE,
       hover: PIN_ICON_SIZE_HOVER,
     },
+    pinType: Pin.TOWN_MED,
   },
 ];
 
