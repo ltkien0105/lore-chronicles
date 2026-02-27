@@ -5,8 +5,8 @@ export const TOWN_MED_PIN_ICON_SIZE = {
   hover: TOWN_MED_PIN_ICON_SIZE_HOVER,
 };
 
-const Pin = {TOWN: "town", TOWN_MED: "town-med"} as const;
-type PinType = typeof Pin[keyof typeof Pin];
+export const Pin = {TOWN: "town", TOWN_MED: "town-med"} as const;
+export type PinType = typeof Pin[keyof typeof Pin];
 
 export interface PinConfig {
   id: string;

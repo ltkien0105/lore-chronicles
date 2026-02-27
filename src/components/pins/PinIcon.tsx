@@ -7,29 +7,22 @@
 import * as THREE from "three";
 import { memo, useRef } from "react";
 import { Text, type TextProps } from "@react-three/drei";
-import type { PinConfig } from "./pin-config";
+import type { PinConfig, PinType } from "./pin-config";
 import { useFrame, useThree, type ThreeEvent } from "@react-three/fiber";
 import { Z_LAYERS } from "../regions/region-config";
 import { ZOOM_DEFAULT } from "@/lib/constants";
 import { getEffectiveZoom } from "@/lib/utils";
-import { TOWN_MED_PIN_ICON_SIZE } from "./pin-config";
+import { TOWN_MED_PIN_ICON_SIZE, Pin } from "./pin-config";
+import { usePinTextures } from "./use-pin-textures";
 // import { BeaufortforLOLBold } from "@/assets/fonts";
 
 interface PinIconProps {
   pin: PinConfig;
-  baseTexture: THREE.Texture;
-  hoverTexture: THREE.Texture;
   isHovered: boolean;
   onHover: (regionId: string | null) => void;
 }
 
-function PinIconInner({
-  pin,
-  baseTexture,
-  hoverTexture,
-  isHovered,
-  onHover,
-}: PinIconProps) {
+function PinIconInner({ pin, isHovered, onHover }: PinIconProps) {
   const { camera, size } = useThree();
   const spriteRef = useRef<THREE.Sprite>(null);
   const textRef = useRef<TextProps>(null);
@@ -37,6 +30,7 @@ function PinIconInner({
     pin.anchorX === "right"
       ? pin.position[0] - TOWN_MED_PIN_ICON_SIZE.base[0] / 2 - 0.2
       : pin.position[0] + TOWN_MED_PIN_ICON_SIZE.base[0] / 2 + 0.2; // position text to the right of the icon
+  const pintextures = usePinTextures();
 
   const handlePointerOver = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
@@ -50,8 +44,31 @@ function PinIconInner({
     document.body.style.cursor = "auto";
   };
 
-  const currentTexture = isHovered ? hoverTexture : baseTexture;
-  const currentIconSize = isHovered ? TOWN_MED_PIN_ICON_SIZE.hover : TOWN_MED_PIN_ICON_SIZE.base;
+  const getCurrentTexture = (pinType: PinType, isHovered: boolean) => {
+    if (pinType === Pin.TOWN_MED) {
+      return isHovered
+        ? pintextures["town-med"].hover
+        : pintextures["town-med"].base;
+    }
+
+    return pintextures.town; // Default to town texture for other pin types (can be expanded in the future)
+  };
+
+  const getCurrentIconSize = (
+    pinType: PinType,
+    isHovered: boolean,
+  ): [number, number, number] => {
+    if (pinType === Pin.TOWN_MED) {
+      return isHovered
+        ? TOWN_MED_PIN_ICON_SIZE.hover
+        : TOWN_MED_PIN_ICON_SIZE.base;
+    }
+
+    return [0.7, 0.7, 1]; // Default size for town pins (can be expanded in the future)
+  };
+
+  const currentTexture = getCurrentTexture(pin.pinType, isHovered);
+  const currentIconSize = getCurrentIconSize(pin.pinType, isHovered);
 
   useFrame(() => {
     if (textRef.current) {

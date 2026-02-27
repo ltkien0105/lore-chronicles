@@ -1,6 +1,5 @@
 import { useState, useCallback, memo } from "react";
 import { PINS } from "./pin-config";
-import { usePinTextures } from "./use-pin-textures";
 import { PinIcon } from "./PinIcon";
 
 /**
@@ -9,7 +8,6 @@ import { PinIcon } from "./PinIcon";
  */
 function PinManagerInner() {
   const [hoveredPin, setHoveredPin] = useState<string | null>(null);
-  const textures = usePinTextures();
 
   const handleHover = useCallback((pinId: string | null) => {
     setHoveredPin(pinId);
@@ -21,8 +19,6 @@ function PinManagerInner() {
         <PinIcon
           key={`pin-${pin.id}`}
           pin={pin}
-          baseTexture={textures.base}
-          hoverTexture={textures.hover}
           isHovered={hoveredPin === pin.id}
           onHover={handleHover}
         />
