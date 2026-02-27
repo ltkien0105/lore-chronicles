@@ -26,11 +26,7 @@ const TILT_CONFIG = {
   EASING: 0.08, // Lerp factor for smooth transition
 };
 
-export default function TerrainTexture({
-  planeSize,
-}: {
-  planeSize: number;
-}) {
+export default function TerrainTexture({ planeSize }: { planeSize: number }) {
   const { camera, size } = useThree();
 
   // Load bottom row textures for background extension
