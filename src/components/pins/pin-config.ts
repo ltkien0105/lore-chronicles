@@ -5,8 +5,8 @@ export const TOWN_MED_PIN_ICON_SIZE = {
   hover: TOWN_MED_PIN_ICON_SIZE_HOVER,
 };
 
-export const Pin = {TOWN: "town", TOWN_MED: "town-med"} as const;
-export type PinType = typeof Pin[keyof typeof Pin];
+export const Pin = { TOWN: "town", TOWN_MED: "town-med" } as const;
+export type PinType = (typeof Pin)[keyof typeof Pin];
 
 export interface PinConfig {
   id: string;
@@ -34,6 +34,76 @@ const IONIA_PINS: PinConfig[] = [
     name: "Temple of Pallas",
     position: [31.7, 1.5],
     pinType: Pin.TOWN_MED,
+  },
+  {
+    id: "faelor",
+    name: "Fae'lor",
+    position: [17.5, 9.7],
+    pinType: Pin.TOWN,
+    anchorX: "right",
+  },
+  {
+    id: "wehle",
+    name: "Weh'le",
+    position: [21.1, 9],
+    pinType: Pin.TOWN,
+    anchorX: "right",
+  },
+  {
+    id: "wuju",
+    name: "Wuju",
+    position: [22.7, 8.2],
+    pinType: Pin.TOWN,
+    anchorX: "right",
+  },
+  {
+    id: "tevasa",
+    name: "Tevasa",
+    position: [23, 9.2],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "vlonqo",
+    name: "Vlonqo",
+    position: [27.4, 10.6],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "puboe",
+    name: "Puboe",
+    position: [21.9, 16.7],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "zhyunia",
+    name: "Zhyunia",
+    position: [29, 6.4],
+    pinType: Pin.TOWN,
+    anchorX: "right",
+  },
+  {
+    id: "kashuri",
+    name: "Kashuri",
+    position: [31.5, 6.1],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "tuula",
+    name: "Tuula",
+    position: [30.2, 4.8],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "temple-of-the-jaggled-knife",
+    name: "Temple of the Jaggled Knife",
+    position: [28.7, 3.3],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "raikkon",
+    name: "Raikkon",
+    position: [28.4, 2.4],
+    pinType: Pin.TOWN,
   },
 ];
 
