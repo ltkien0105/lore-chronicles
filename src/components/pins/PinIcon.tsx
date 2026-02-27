@@ -64,7 +64,7 @@ function PinIconInner({ pin, isHovered, onHover }: PinIconProps) {
         : TOWN_MED_PIN_ICON_SIZE.base;
     }
 
-    return [0.7, 0.7, 1]; // Default size for town pins (can be expanded in the future)
+    return [0.4, 0.4, 1]; // Default size for town pins (can be expanded in the future)
   };
 
   const currentTexture = getCurrentTexture(pin.pinType, isHovered);

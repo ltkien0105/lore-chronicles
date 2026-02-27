@@ -203,7 +203,11 @@ export function TerrainLodMesh({ planeSize }: TerrainLodMeshProps) {
         cameraY,
         planeSize,
       );
-      const visibleTiles = getTilesToLoad(centerRow, centerCol, TILE_LOAD_RADIUS);
+      const visibleTiles = getTilesToLoad(
+        centerRow,
+        centerCol,
+        TILE_LOAD_RADIUS,
+      );
       totalVisibleTiles = visibleTiles.length;
 
       for (const tileIndex of visibleTiles) {
