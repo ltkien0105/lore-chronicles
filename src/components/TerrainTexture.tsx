@@ -18,13 +18,13 @@ import Tile63 from "@/images/tiles/en_us/terrain_z2_63.jpg";
 import Tile64 from "@/images/tiles/en_us/terrain_z2_64.jpg";
 
 // X-axis tilt configuration
-const TILT_CONFIG = {
-  MIN_ANGLE: 0, // Flat at min zoom (radians)
-  MAX_ANGLE: Math.PI / 6, // ~30° at max zoom (radians)
-  MIN_ZOOM: 15, // Start tilting from this zoom level
-  MAX_ZOOM: 60, // Max tilt at this zoom level
-  EASING: 0.08, // Lerp factor for smooth transition
-};
+// const TILT_CONFIG = {
+//   MIN_ANGLE: 0, // Flat at min zoom (radians)
+//   MAX_ANGLE: Math.PI / 6, // ~30° at max zoom (radians)
+//   MIN_ZOOM: 15, // Start tilting from this zoom level
+//   MAX_ZOOM: 60, // Max tilt at this zoom level
+//   EASING: 0.08, // Lerp factor for smooth transition
+// };
 
 export default function TerrainTexture({ planeSize }: { planeSize: number }) {
   const { camera, size } = useThree();
@@ -46,7 +46,7 @@ export default function TerrainTexture({ planeSize }: { planeSize: number }) {
   const terrainGroupRef = useRef<THREE.Group>(null);
 
   // Track current tilt angle for smooth animation
-  const currentTilt = useRef(0);
+  // const currentTilt = useRef(0);
 
   useFrame(() => {
     const effectiveZoom = getEffectiveZoom(
@@ -63,47 +63,47 @@ export default function TerrainTexture({ planeSize }: { planeSize: number }) {
     }
 
     // Calculate target tilt based on zoom level
-    if (terrainGroupRef.current) {
-      // Normalize zoom to 0-1 range within tilt range
-      const zoomNormalized = THREE.MathUtils.clamp(
-        (effectiveZoom - TILT_CONFIG.MIN_ZOOM) /
-          (TILT_CONFIG.MAX_ZOOM - TILT_CONFIG.MIN_ZOOM),
-        0,
-        1,
-      );
+    // if (terrainGroupRef.current) {
+    //   // Normalize zoom to 0-1 range within tilt range
+    //   const zoomNormalized = THREE.MathUtils.clamp(
+    //     (effectiveZoom - TILT_CONFIG.MIN_ZOOM) /
+    //       (TILT_CONFIG.MAX_ZOOM - TILT_CONFIG.MIN_ZOOM),
+    //     0,
+    //     1,
+    //   );
 
-      // Calculate target tilt angle (negative for backward tilt)
-      const targetTilt =
-        -TILT_CONFIG.MIN_ANGLE -
-        zoomNormalized * (TILT_CONFIG.MAX_ANGLE - TILT_CONFIG.MIN_ANGLE);
+    //   // Calculate target tilt angle (negative for backward tilt)
+    //   const targetTilt =
+    //     -TILT_CONFIG.MIN_ANGLE -
+    //     zoomNormalized * (TILT_CONFIG.MAX_ANGLE - TILT_CONFIG.MIN_ANGLE);
 
-      // Smooth lerp to target
-      currentTilt.current = THREE.MathUtils.lerp(
-        currentTilt.current,
-        targetTilt,
-        TILT_CONFIG.EASING,
-      );
+    //   // Smooth lerp to target
+    //   currentTilt.current = THREE.MathUtils.lerp(
+    //     currentTilt.current,
+    //     targetTilt,
+    //     TILT_CONFIG.EASING,
+    //   );
 
-      // Apply X-axis rotation around camera target (not world origin)
-      // This prevents the bottom of map from rotating out of view
-      const cameraTarget = camera.position;
+    //   // Apply X-axis rotation around camera target (not world origin)
+    //   // This prevents the bottom of map from rotating out of view
+    //   const cameraTarget = camera.position;
 
-      // Reset transform
-      terrainGroupRef.current.position.set(0, 0, 0);
-      terrainGroupRef.current.rotation.set(0, 0, 0);
+    //   // Reset transform
+    //   terrainGroupRef.current.position.set(0, 0, 0);
+    //   terrainGroupRef.current.rotation.set(0, 0, 0);
 
-      // Translate to pivot point (camera Y position), rotate, translate back
-      // This rotates around the camera's view center instead of world origin
-      const pivotY = cameraTarget.y;
+    //   // Translate to pivot point (camera Y position), rotate, translate back
+    //   // This rotates around the camera's view center instead of world origin
+    //   const pivotY = cameraTarget.y;
 
-      // Apply rotation around pivot point
-      terrainGroupRef.current.position.y = -pivotY;
-      terrainGroupRef.current.rotation.x = currentTilt.current;
-      terrainGroupRef.current.position.y +=
-        pivotY * Math.cos(currentTilt.current);
-      terrainGroupRef.current.position.z =
-        -pivotY * Math.sin(currentTilt.current);
-    }
+    //   // Apply rotation around pivot point
+    //   terrainGroupRef.current.position.y = -pivotY;
+    //   terrainGroupRef.current.rotation.x = currentTilt.current;
+    //   terrainGroupRef.current.position.y +=
+    //     pivotY * Math.cos(currentTilt.current);
+    //   terrainGroupRef.current.position.z =
+    //     -pivotY * Math.sin(currentTilt.current);
+    // }
   });
 
   // Calculate tile size for the 8x8 grid
