@@ -324,6 +324,12 @@ const DEMACIA_PINS: PinConfig[] = [
     position: [-17.3, 2.8],
     pinType: Pin.TOWN,
   },
+  {
+    id: "palclyff",
+    name: "Palclyff",
+    position: [-17, -3.8],
+    pinType: Pin.TOWN,
+  },
 ];
 
 const NOXUS_PINS: PinConfig[] = [
