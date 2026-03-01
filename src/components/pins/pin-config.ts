@@ -443,6 +443,42 @@ const NOXUS_PINS: PinConfig[] = [
   },
 ];
 
+const STONEWALL_PINS: PinConfig[] = [
+  {
+    id: "stonewall",
+    name: "Stonewall",
+    position: [0.7, -6.5],
+    pinType: Pin.TOWN,
+  },
+];
+
+const BOLEHAME_PINS: PinConfig[] = [
+  {
+    id: "boleham",
+    name: "Boleham",
+    position: [-10.8, -2.4],
+    pinType: Pin.TOWN,
+  },
+];
+
+const HOLDRUM_PINS: PinConfig[] = [
+  {
+    id: "holdrum",
+    name: "Holdrum",
+    position: [12.7, -5.4],
+    pinType: Pin.TOWN,
+  },
+];
+
+const KUMANGRA_PINS: PinConfig[] = [
+  {
+    id: "kumangra",
+    name: "Kumangra",
+    position: [10.8, -6.6],
+    pinType: Pin.TOWN,
+  },
+];
+
 const BILGEwATER_PINS: PinConfig[] = [
   {
     id: "bilgewater-bay",
@@ -490,6 +526,10 @@ export const PINS: PinConfig[] = [
   ...FRELJORD_PINS,
   ...DEMACIA_PINS,
   ...NOXUS_PINS,
+  ...STONEWALL_PINS,
+  ...BOLEHAME_PINS,
+  ...HOLDRUM_PINS,
+  ...KUMANGRA_PINS,
   ...BILGEwATER_PINS,
   ...SHURIMA_PINS,
 ];
