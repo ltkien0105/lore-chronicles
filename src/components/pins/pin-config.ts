@@ -339,6 +339,108 @@ const NOXUS_PINS: PinConfig[] = [
     position: [15.1, 0.3],
     pinType: Pin.TOWN_MED,
   },
+  {
+    id: "gate-of-mourning",
+    name: "Gate of Mourning",
+    position: [-16.6, -2.4],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "glorf",
+    name: "Glorf",
+    position: [-10.3, -4.5],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "kilgrove",
+    name: "Kilgrove",
+    position: [-7.1, -3],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "qualthala",
+    name: "Qualthala",
+    position: [0.2, -1.7],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "rokrund",
+    name: "Rokrund",
+    position: [2.8, -3.3],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "bloodcliffs",
+    name: "Bloodcliffs",
+    position: [7.6, 3.6],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "the-drakkengate",
+    name: "The Drakkengate",
+    position: [11.9, 4.6],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "krexor",
+    name: "Krexor",
+    position: [14.7, -2.6],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "vindor",
+    name: "Vindor",
+    position: [18.6, -1.5],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "fallgren",
+    name: "Fallgren",
+    position: [22.2, -1.8],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "trannit",
+    name: "Trannit",
+    position: [17.6, -6.4],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "ironwater",
+    name: "Ironwater",
+    position: [19.1, -6.1],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "drekan",
+    name: "Drekan",
+    position: [-0.6, 4.5],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "drugne",
+    name: "Drugne",
+    position: [-6, 11],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "ruug",
+    name: "Ruug",
+    position: [-0.7, 14.7],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "the-iron-pinnacle",
+    name: "The Iron Pinnacle",
+    position: [0.7, 12.9],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "khworez",
+    name: "Khworez",
+    position: [1.9, 9.3],
+    pinType: Pin.TOWN,
+  },
 ];
 
 const BILGEwATER_PINS: PinConfig[] = [
