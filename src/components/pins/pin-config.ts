@@ -479,7 +479,7 @@ const KUMANGRA_PINS: PinConfig[] = [
   },
 ];
 
-const BILGEwATER_PINS: PinConfig[] = [
+const BILGEWATER_PINS: PinConfig[] = [
   {
     id: "bilgewater-bay",
     name: "Bilgewater Bay",
@@ -530,6 +530,6 @@ export const PINS: PinConfig[] = [
   ...BOLEHAME_PINS,
   ...HOLDRUM_PINS,
   ...KUMANGRA_PINS,
-  ...BILGEwATER_PINS,
+  ...BILGEWATER_PINS,
   ...SHURIMA_PINS,
 ];
