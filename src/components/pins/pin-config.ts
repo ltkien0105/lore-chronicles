@@ -479,6 +479,24 @@ const KUMANGRA_PINS: PinConfig[] = [
   },
 ];
 
+const MUDTOWN_PINS: PinConfig[] = [
+  {
+    id: "mudtown",
+    name: "Mudtown",
+    position: [19.2, -8.7],
+    pinType: Pin.TOWN,
+  },
+];
+
+const HARELPORT_PINS: PinConfig[] = [
+  {
+    id: "harelport",
+    name: "Harelport",
+    position: [18.6, -14.6],
+    pinType: Pin.TOWN,
+  },
+];
+
 const BILGEWATER_PINS: PinConfig[] = [
   {
     id: "bilgewater-bay",
@@ -530,6 +548,8 @@ export const PINS: PinConfig[] = [
   ...BOLEHAME_PINS,
   ...HOLDRUM_PINS,
   ...KUMANGRA_PINS,
+  ...MUDTOWN_PINS,
+  ...HARELPORT_PINS,
   ...BILGEWATER_PINS,
   ...SHURIMA_PINS,
 ];
