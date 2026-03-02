@@ -539,6 +539,21 @@ const SHURIMA_PINS: PinConfig[] = [
   },
 ];
 
+const IXTAL_PINS: PinConfig[] = [
+  {
+    id: "paretha",
+    name: "Paretha",
+    position: [15.3, -15.2],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "killash-village",
+    name: "Killash Village",
+    position: [12.2, -17.6],
+    pinType: Pin.TOWN,
+  },
+];
+
 export const PINS: PinConfig[] = [
   ...IONIA_PINS,
   ...FRELJORD_PINS,
@@ -552,4 +567,5 @@ export const PINS: PinConfig[] = [
   ...HARELPORT_PINS,
   ...BILGEWATER_PINS,
   ...SHURIMA_PINS,
+  ...IXTAL_PINS,
 ];
