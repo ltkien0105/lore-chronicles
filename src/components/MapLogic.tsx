@@ -3,10 +3,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { useMemo, useRef, useCallback, useEffect } from "react";
 import { MapControls as MapControlsImpl } from "three-stdlib";
 import { MapControls } from "@react-three/drei";
-import {
-  DEFAULT_FOV,
-  ZOOM_DEFAULT
-} from "@/lib/constants";
+import { DEFAULT_FOV, ZOOM_DEFAULT } from "@/lib/constants";
 import { getDistanceForZoom, getEffectiveZoom } from "@/lib/utils";
 
 export default function MapLogic({
@@ -43,13 +40,33 @@ export default function MapLogic({
     const halfVisibleHeight = size.height / zoom / 2;
 
     const halfPlaneWidth = planeWidth / 2;
-    const halfPlaneHeight = planeHeight / 2;
 
     // Calculate max pan distance (how far camera center can move from origin)
-    const maxPanX = Math.max(0, halfPlaneWidth - halfVisibleWidth); // fixed
-    const maxPanY = Math.max(0, halfPlaneHeight - halfVisibleHeight); // fixed
+    const maxPanX = Math.max(0, halfPlaneWidth - halfVisibleWidth);
 
-    return { maxPanX, maxPanY };
+    // Restrict vertical panning: 20% from top, 10% from bottom
+    // This creates an asymmetric panning boundary
+    const topRestriction = planeHeight * 0.2; // 20% from top
+    const bottomRestriction = planeHeight * 0.1; // 10% from bottom
+
+    // Calculate the allowed panning range
+    const allowedHeight = planeHeight - topRestriction - bottomRestriction;
+
+    // The center of the allowed area is shifted down from origin
+    const allowedCenterOffset = (bottomRestriction - topRestriction) / 2;
+
+    // Calculate maximum pan distances from the allowed center
+    const halfAllowedHeight = allowedHeight / 2;
+    const maxPanYFromCenter = Math.max(
+      0,
+      halfAllowedHeight - halfVisibleHeight,
+    );
+
+    // Calculate actual min/max pan Y values
+    const minPanY = allowedCenterOffset - maxPanYFromCenter;
+    const maxPanY = allowedCenterOffset + maxPanYFromCenter;
+
+    return { maxPanX, minPanY, maxPanY };
   }, [perspectiveCamera, size, planeWidth, planeHeight]);
 
   // Handle change event from MapControls to clamp position
@@ -57,7 +74,7 @@ export default function MapLogic({
     const controls = controlsRef.current;
     if (!controls) return;
 
-    const { maxPanX, maxPanY } = getPanLimits();
+    const { maxPanX, minPanY, maxPanY } = getPanLimits();
 
     // Clamp target position
     const clampedX = THREE.MathUtils.clamp(
@@ -65,11 +82,7 @@ export default function MapLogic({
       -maxPanX,
       maxPanX,
     );
-    const clampedY = THREE.MathUtils.clamp(
-      controls.target.y,
-      -maxPanY,
-      maxPanY,
-    );
+    const clampedY = THREE.MathUtils.clamp(controls.target.y, minPanY, maxPanY);
 
     // Calculate the delta to apply to camera
     const deltaX = clampedX - controls.target.x;
@@ -97,15 +110,15 @@ export default function MapLogic({
     const controls = controlsRef.current;
     if (!controls) return;
 
-    const { maxPanX, maxPanY } = getPanLimits();
+    const { maxPanX, minPanY, maxPanY } = getPanLimits();
 
     // Only clamp if outside bounds (don't interfere with normal panning)
     const targetX = controls.target.x;
     const targetY = controls.target.y;
 
-    if (Math.abs(targetX) > maxPanX || Math.abs(targetY) > maxPanY) {
+    if (Math.abs(targetX) > maxPanX || targetY < minPanY || targetY > maxPanY) {
       const clampedX = THREE.MathUtils.clamp(targetX, -maxPanX, maxPanX);
-      const clampedY = THREE.MathUtils.clamp(targetY, -maxPanY, maxPanY);
+      const clampedY = THREE.MathUtils.clamp(targetY, minPanY, maxPanY);
 
       const deltaX = clampedX - targetX;
       const deltaY = clampedY - targetY;
