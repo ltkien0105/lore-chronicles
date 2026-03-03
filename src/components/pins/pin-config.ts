@@ -441,6 +441,12 @@ const NOXUS_PINS: PinConfig[] = [
     position: [1.9, 9.3],
     pinType: Pin.TOWN,
   },
+  {
+    id: "urzeris",
+    name: "Urzeris",
+    position: [-6, -11.1],
+    pinType: Pin.TOWN,
+  },
 ];
 
 const STONEWALL_PINS: PinConfig[] = [
