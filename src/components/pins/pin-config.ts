@@ -543,6 +543,42 @@ const SHURIMA_PINS: PinConfig[] = [
     position: [2.5, -21.6],
     pinType: Pin.TOWN_MED,
   },
+  {
+    id: "kalamanda",
+    name: "Kalamanda",
+    position: [-9.8, -11.4],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "zuretta",
+    name: "Zuretta",
+    position: [-0.4, -13.3],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "kenethet",
+    name: "Kenethet",
+    position: [6.8, -12.9],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "nerimazeth",
+    name: "Nerimazeth",
+    position: [-6.8, -18.7],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "vekaura",
+    name: "Vekaura",
+    position: [5.8, -18.1],
+    pinType: Pin.TOWN,
+  },
+  {
+    id: "antathir",
+    name: "Antathir",
+    position: [4, -25.6],
+    pinType: Pin.TOWN,
+  },
 ];
 
 const IXTAL_PINS: PinConfig[] = [
@@ -556,6 +592,15 @@ const IXTAL_PINS: PinConfig[] = [
     id: "killash-village",
     name: "Killash Village",
     position: [12.2, -17.6],
+    pinType: Pin.TOWN,
+  },
+];
+
+const AURMA_PINS: PinConfig[] = [
+  {
+    id: "aurma",
+    name: "Aurma",
+    position: [-11.9, -10.8],
     pinType: Pin.TOWN,
   },
 ];
@@ -574,4 +619,5 @@ export const PINS: PinConfig[] = [
   ...BILGEWATER_PINS,
   ...SHURIMA_PINS,
   ...IXTAL_PINS,
+  ...AURMA_PINS,
 ];
