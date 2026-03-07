@@ -159,6 +159,7 @@ function TileMesh({
       `,
       transparent: true,
       side: THREE.DoubleSide,
+      toneMapped: false,
     });
   }, [displacementTexture]);
 
@@ -180,7 +181,7 @@ export function TerrainLodMesh({ planeSize }: TerrainLodMeshProps) {
 
   // Load normal/bump map for depth appearance
   const displacementTexture = useTexture(TerrainDisplacement, (texture) => {
-    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.colorSpace = THREE.LinearSRGBColorSpace;
   });
 
   // Refs for tile meshes and textures
