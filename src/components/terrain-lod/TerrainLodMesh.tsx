@@ -24,6 +24,11 @@ const tileModules = import.meta.glob<{ default: string }>(
   { eager: false },
 );
 
+const tileDepthModules = import.meta.glob<{ default: string }>(
+  "/src/assets/images/tiles/depth_z1_*.png",
+  { eager: false },
+);
+
 interface TileMeshRef {
   mesh: THREE.Mesh | null;
   texture: THREE.Texture | null;
@@ -32,141 +37,6 @@ interface TileMeshRef {
 
 interface TerrainLodMeshProps {
   planeSize: number;
-}
-
-/**
- * Create a plane geometry with a second UV channel for displacement map sampling.
- * - uv (channel 0): Default 0-1 for the tile's color texture
- * - uv1 (channel 1): Offset UVs for sampling the global displacement map
- */
-function createTileGeometry(
-  width: number,
-  height: number,
-  widthSegments: number,
-  heightSegments: number,
-  row: number,
-  col: number,
-  gridSize: number,
-): THREE.PlaneGeometry {
-  const geometry = new THREE.PlaneGeometry(
-    width,
-    height,
-    widthSegments,
-    heightSegments,
-  );
-
-  // Get the original UV attribute (for color texture - stays 0-1)
-  const uvAttribute = geometry.getAttribute("uv");
-  const uvArray = uvAttribute.array as Float32Array;
-
-  // Create a second UV channel for displacement map with offset coordinates
-  const uv1Array = new Float32Array(uvArray.length);
-
-  // Calculate UV offset and scale for this tile's position in the global map
-  const uScale = 1 / gridSize;
-  const vScale = 1 / gridSize;
-  const uOffset = col / gridSize;
-  // V is inverted in UV space (0 at bottom, 1 at top), and rows go top-to-bottom
-  const vOffset = (gridSize - 1 - row) / gridSize;
-
-  // Copy and remap UVs for the displacement map channel
-  for (let i = 0; i < uvArray.length; i += 2) {
-    const u = uvArray[i];
-    const v = uvArray[i + 1];
-
-    // UV1 samples the correct region of the global displacement map
-    uv1Array[i] = uOffset + u * uScale;
-    uv1Array[i + 1] = vOffset + v * vScale;
-  }
-
-  // Add the second UV channel
-  geometry.setAttribute("uv1", new THREE.BufferAttribute(uv1Array, 2));
-
-  return geometry;
-}
-
-/**
- * Custom shader material that uses uv1 for displacement map sampling
- * while keeping uv for the color texture
- */
-function TileMesh({
-  index,
-  position,
-  geometry,
-  displacementTexture,
-  tileRefs,
-}: {
-  index: number;
-  position: [number, number, number];
-  geometry: THREE.PlaneGeometry;
-  displacementTexture: THREE.Texture;
-  tileRefs: React.MutableRefObject<Map<number, TileMeshRef>>;
-}) {
-  const meshRef = useRef<THREE.Mesh>(null);
-  const materialRef = useRef<THREE.ShaderMaterial>(null);
-
-  // Register mesh in refs
-  useEffect(() => {
-    if (meshRef.current) {
-      const existing = tileRefs.current.get(index);
-      tileRefs.current.set(index, {
-        mesh: meshRef.current,
-        texture: existing?.texture || null,
-        loaded: existing?.loaded || false,
-      });
-    }
-  }, [index, tileRefs]);
-
-  // Custom shader that uses uv1 for displacement
-  const shaderMaterial = useMemo(() => {
-    return new THREE.ShaderMaterial({
-      uniforms: {
-        map: { value: null },
-        displacementMap: { value: displacementTexture },
-        displacementScale: { value: 10.0 },
-        opacity: { value: 0.0 },
-      },
-      vertexShader: `
-        attribute vec2 uv1;
-        uniform sampler2D displacementMap;
-        uniform float displacementScale;
-
-        varying vec2 vUv;
-
-        void main() {
-          vUv = uv; // Use default uv for color texture
-
-          // Sample displacement using uv1 (offset coordinates)
-          float displacement = texture2D(displacementMap, uv1).r;
-          vec3 newPosition = position + normal * displacement * displacementScale;
-
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
-        }
-      `,
-      fragmentShader: `
-        uniform sampler2D map;
-        uniform float opacity;
-
-        varying vec2 vUv;
-
-        void main() {
-          if (opacity < 0.01) discard;
-
-          vec4 texColor = texture2D(map, vUv);
-          // Output texture as-is (lighting is baked into the texture)
-          gl_FragColor = vec4(texColor.rgb, texColor.a * opacity);
-        }
-      `,
-      transparent: true,
-      side: THREE.DoubleSide,
-    });
-  }, [displacementTexture]);
-
-  return (
-    <mesh ref={meshRef} position={position} geometry={geometry}>
-      <primitive object={shaderMaterial} ref={materialRef} attach="material" />
-    </mesh>
-  );
 }
 
 export function TerrainLodMesh({ planeSize }: TerrainLodMeshProps) {
@@ -178,7 +48,6 @@ export function TerrainLodMesh({ planeSize }: TerrainLodMeshProps) {
     texture.colorSpace = THREE.SRGBColorSpace;
   });
 
-  // Load normal/bump map for depth appearance
   const displacementTexture = useTexture(TerrainDisplacement, (texture) => {
     texture.colorSpace = THREE.SRGBColorSpace;
   });
@@ -200,10 +69,17 @@ export function TerrainLodMesh({ planeSize }: TerrainLodMeshProps) {
     async (index: number) => {
       const formattedIndex = formatTileIndex(index);
       const path = `/src/images/tiles/en_us/terrain_z2_${formattedIndex}.jpg`;
+      const path_depth = `/src/assets/images/tiles/depth_z1_${formattedIndex}.png`;
 
       const moduleLoader = tileModules[path];
+      const depthModuleLoader = tileDepthModules[path_depth];
       if (!moduleLoader) {
         console.warn(`Tile not found: ${path}`);
+        return null;
+      }
+
+      if (!depthModuleLoader) {
+        console.warn(`Depth tile not found: ${path_depth}`);
         return null;
       }
 
@@ -211,6 +87,8 @@ export function TerrainLodMesh({ planeSize }: TerrainLodMeshProps) {
         markTileLoading(index);
         const module = await moduleLoader();
         const textureUrl = module.default;
+        const depthModule = await depthModuleLoader();
+        const depthPath = depthModule.default;
 
         const textureLoader = new THREE.TextureLoader();
         const texture = await new Promise<THREE.Texture>((resolve, reject) => {
@@ -225,9 +103,23 @@ export function TerrainLodMesh({ planeSize }: TerrainLodMeshProps) {
             reject,
           );
         });
+        const depthTexture = await new Promise<THREE.Texture>(
+          (resolve, reject) => {
+            textureLoader.load(
+              depthPath,
+              (tex) => {
+                tex.colorSpace = THREE.SRGBColorSpace;
+                tex.needsUpdate = true;
+                resolve(tex);
+              },
+              undefined,
+              reject,
+            );
+          },
+        );
 
         markTileLoaded(index, textureUrl);
-        return texture;
+        return [texture, depthTexture] as [THREE.Texture, THREE.Texture];
       } catch (error) {
         console.error(`Failed to load tile ${index}:`, error);
         markTileError(index);
@@ -270,14 +162,17 @@ export function TerrainLodMesh({ planeSize }: TerrainLodMeshProps) {
         if (existing?.loaded) continue;
 
         // Load texture asynchronously
-        loadTileTexture(tileIndex).then((texture) => {
-          if (!texture) return;
+        loadTileTexture(tileIndex).then((result) => {
+          if (!result) return;
+          const [texture, depthTexture] = result;
 
           const ref = tileRefs.current.get(tileIndex);
           if (ref?.mesh) {
-            const material = ref.mesh.material as THREE.ShaderMaterial;
-            material.uniforms.map.value = texture;
+            const material = ref.mesh.material as THREE.MeshStandardMaterial;
+            material.map = texture;
             material.needsUpdate = true;
+            material.displacementMap = depthTexture;
+            material.displacementScale = 15; // Adjust for desired depth effect
             ref.texture = texture;
             ref.loaded = true;
           }
@@ -287,7 +182,7 @@ export function TerrainLodMesh({ planeSize }: TerrainLodMeshProps) {
     [planeSize, isTileLoaded, loadTileTexture],
   );
 
-  // Create tile meshes with displacement using custom shader for UV offset
+  // Create tile meshes
   const tileMeshes = useMemo(() => {
     const meshes: JSX.Element[] = [];
 
@@ -296,32 +191,30 @@ export function TerrainLodMesh({ planeSize }: TerrainLodMeshProps) {
         const index = row * GRID_SIZE + col + 1;
         const { x, y } = getTileWorldPosition(row, col, planeSize);
 
-        // Create geometry with UV1 channel for displacement map offset
-        const geometry = createTileGeometry(
-          tileSize,
-          tileSize,
-          64,
-          64,
-          row,
-          col,
-          GRID_SIZE,
-        );
-
         meshes.push(
-          <TileMesh
+          <mesh
             key={`tile-${index}`}
-            index={index}
             position={[x, y, 0.01]}
-            geometry={geometry}
-            displacementTexture={displacementTexture}
-            tileRefs={tileRefs}
-          />,
+            ref={(mesh: THREE.Mesh | null) => {
+              if (mesh) {
+                const existing = tileRefs.current.get(index);
+                tileRefs.current.set(index, {
+                  mesh,
+                  texture: existing?.texture || null,
+                  loaded: existing?.loaded || false,
+                });
+              }
+            }}
+          >
+            <planeGeometry args={[tileSize, tileSize, 512, 512]} />
+            <meshStandardMaterial transparent opacity={0} />
+          </mesh>,
         );
       }
     }
 
     return meshes;
-  }, [planeSize, tileSize, displacementTexture]);
+  }, [planeSize, tileSize]);
 
   // Update visibility and load tiles on each frame
   useFrame(() => {
@@ -363,8 +256,8 @@ export function TerrainLodMesh({ planeSize }: TerrainLodMeshProps) {
       // Update tile opacities based on loaded state
       tileRefs.current.forEach((ref) => {
         if (ref.mesh) {
-          const material = ref.mesh.material as THREE.ShaderMaterial;
-          material.uniforms.opacity.value = ref.loaded ? 1 : 0;
+          const material = ref.mesh.material as THREE.MeshStandardMaterial;
+          material.opacity = ref.loaded ? 1 : 0;
         }
       });
     }
@@ -408,7 +301,7 @@ export function TerrainLodMesh({ planeSize }: TerrainLodMeshProps) {
         />
       </mesh>
 
-      {/* High-res tile grid (visible when zoomed in) - with displacement for depth */}
+      {/* High-res tile grid (visible when zoomed in) */}
       <group ref={highResGroupRef} visible={false}>
         {tileMeshes}
       </group>
