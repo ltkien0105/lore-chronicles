@@ -11,6 +11,7 @@ import {
   getTilesToLoad,
   formatTileIndex,
   TILE_LOAD_RADIUS,
+  tileIndexToGridPosition,
 } from "./tile-grid-config";
 import { useTileStore } from "./use-tile-store";
 
@@ -24,11 +25,6 @@ const tileModules = import.meta.glob<{ default: string }>(
   { eager: false },
 );
 
-const tileDepthModules = import.meta.glob<{ default: string }>(
-  "/src/assets/images/tiles/depth_z1_*.png",
-  { eager: false },
-);
-
 interface TileMeshRef {
   mesh: THREE.Mesh | null;
   texture: THREE.Texture | null;
@@ -39,6 +35,24 @@ interface TerrainLodMeshProps {
   planeSize: number;
 }
 
+/**
+ * Create UV offset/scale for a tile to sample from a global displacement map
+ * This allows using one big displacement map for all tiles
+ */
+function getTileUVTransform(
+  tileIndex: number,
+): { offset: THREE.Vector2; scale: THREE.Vector2 } {
+  const { row, col } = tileIndexToGridPosition(tileIndex);
+  // Each tile covers 1/8 of the texture in each direction
+  const scale = new THREE.Vector2(1 / GRID_SIZE, 1 / GRID_SIZE);
+  // Offset based on tile position (UV origin is bottom-left, row 0 is top)
+  const offset = new THREE.Vector2(
+    col / GRID_SIZE,
+    (GRID_SIZE - 1 - row) / GRID_SIZE,
+  );
+  return { offset, scale };
+}
+
 export function TerrainLodMesh({ planeSize }: TerrainLodMeshProps) {
   const { camera, size } = useThree();
   const tileSize = planeSize / GRID_SIZE;
@@ -46,11 +60,20 @@ export function TerrainLodMesh({ planeSize }: TerrainLodMeshProps) {
   // Low-res texture for fallback/far view
   const lowResTexture = useTexture(TerrainMapLowRes, (texture) => {
     texture.colorSpace = THREE.SRGBColorSpace;
+    texture.wrapS = THREE.ClampToEdgeWrapping;
+    texture.wrapT = THREE.ClampToEdgeWrapping;
   });
 
-  const displacementTexture = useTexture(TerrainDisplacement, (texture) => {
-    texture.colorSpace = THREE.SRGBColorSpace;
-  });
+  // Global displacement map - used for all tiles
+  const globalDisplacementTexture = useTexture(
+    TerrainDisplacement,
+    (texture) => {
+      texture.wrapS = THREE.ClampToEdgeWrapping;
+      texture.wrapT = THREE.ClampToEdgeWrapping;
+      texture.minFilter = THREE.LinearFilter;
+      texture.magFilter = THREE.LinearFilter;
+    },
+  );
 
   // Refs for tile meshes and textures
   const tileRefs = useRef<Map<number, TileMeshRef>>(new Map());
@@ -64,22 +87,15 @@ export function TerrainLodMesh({ planeSize }: TerrainLodMeshProps) {
   // Track last loaded position to avoid redundant loads
   const lastLoadedPosition = useRef<{ row: number; col: number } | null>(null);
 
-  // Load a specific tile texture
+  // Load a specific tile texture (color only, displacement uses global map)
   const loadTileTexture = useCallback(
     async (index: number) => {
       const formattedIndex = formatTileIndex(index);
       const path = `/src/images/tiles/en_us/terrain_z2_${formattedIndex}.jpg`;
-      const path_depth = `/src/assets/images/tiles/depth_z1_${formattedIndex}.png`;
 
       const moduleLoader = tileModules[path];
-      const depthModuleLoader = tileDepthModules[path_depth];
       if (!moduleLoader) {
         console.warn(`Tile not found: ${path}`);
-        return null;
-      }
-
-      if (!depthModuleLoader) {
-        console.warn(`Depth tile not found: ${path_depth}`);
         return null;
       }
 
@@ -87,8 +103,6 @@ export function TerrainLodMesh({ planeSize }: TerrainLodMeshProps) {
         markTileLoading(index);
         const module = await moduleLoader();
         const textureUrl = module.default;
-        const depthModule = await depthModuleLoader();
-        const depthPath = depthModule.default;
 
         const textureLoader = new THREE.TextureLoader();
         const texture = await new Promise<THREE.Texture>((resolve, reject) => {
@@ -96,6 +110,12 @@ export function TerrainLodMesh({ planeSize }: TerrainLodMeshProps) {
             textureUrl,
             (tex) => {
               tex.colorSpace = THREE.SRGBColorSpace;
+              // Prevent black edges at tile boundaries
+              tex.wrapS = THREE.ClampToEdgeWrapping;
+              tex.wrapT = THREE.ClampToEdgeWrapping;
+              tex.minFilter = THREE.LinearFilter;
+              tex.magFilter = THREE.LinearFilter;
+              tex.generateMipmaps = false;
               tex.needsUpdate = true;
               resolve(tex);
             },
@@ -103,23 +123,9 @@ export function TerrainLodMesh({ planeSize }: TerrainLodMeshProps) {
             reject,
           );
         });
-        const depthTexture = await new Promise<THREE.Texture>(
-          (resolve, reject) => {
-            textureLoader.load(
-              depthPath,
-              (tex) => {
-                tex.colorSpace = THREE.SRGBColorSpace;
-                tex.needsUpdate = true;
-                resolve(tex);
-              },
-              undefined,
-              reject,
-            );
-          },
-        );
 
         markTileLoaded(index, textureUrl);
-        return [texture, depthTexture] as [THREE.Texture, THREE.Texture];
+        return texture;
       } catch (error) {
         console.error(`Failed to load tile ${index}:`, error);
         markTileError(index);
@@ -162,27 +168,38 @@ export function TerrainLodMesh({ planeSize }: TerrainLodMeshProps) {
         if (existing?.loaded) continue;
 
         // Load texture asynchronously
-        loadTileTexture(tileIndex).then((result) => {
-          if (!result) return;
-          const [texture, depthTexture] = result;
+        loadTileTexture(tileIndex).then((texture) => {
+          if (!texture) return;
 
           const ref = tileRefs.current.get(tileIndex);
           if (ref?.mesh) {
             const material = ref.mesh.material as THREE.MeshStandardMaterial;
             material.map = texture;
             material.needsUpdate = true;
-            material.displacementMap = depthTexture;
-            material.displacementScale = 15; // Adjust for desired depth effect
+
+            // Use global displacement map with UV transform for this tile
+            const { offset, scale } = getTileUVTransform(tileIndex);
+            const tileDisplacement = globalDisplacementTexture.clone();
+            tileDisplacement.offset.copy(offset);
+            tileDisplacement.repeat.copy(scale);
+            tileDisplacement.needsUpdate = true;
+
+            material.displacementMap = tileDisplacement;
+            material.displacementScale = 15;
             ref.texture = texture;
             ref.loaded = true;
           }
         });
       }
     },
-    [planeSize, isTileLoaded, loadTileTexture],
+    [planeSize, isTileLoaded, loadTileTexture, globalDisplacementTexture],
   );
 
   // Create tile meshes
+  // Add small overlap to prevent gaps between tiles (0.1% of tile size)
+  const tileOverlap = tileSize * 0.001;
+  const effectiveTileSize = tileSize + tileOverlap;
+
   const tileMeshes = useMemo(() => {
     const meshes: JSX.Element[] = [];
 
@@ -206,7 +223,9 @@ export function TerrainLodMesh({ planeSize }: TerrainLodMeshProps) {
               }
             }}
           >
-            <planeGeometry args={[tileSize, tileSize, 512, 512]} />
+            <planeGeometry
+              args={[effectiveTileSize, effectiveTileSize, 512, 512]}
+            />
             <meshStandardMaterial transparent opacity={0} />
           </mesh>,
         );
@@ -214,7 +233,7 @@ export function TerrainLodMesh({ planeSize }: TerrainLodMeshProps) {
     }
 
     return meshes;
-  }, [planeSize, tileSize]);
+  }, [planeSize, effectiveTileSize]);
 
   // Update visibility and load tiles on each frame
   useFrame(() => {
@@ -296,7 +315,7 @@ export function TerrainLodMesh({ planeSize }: TerrainLodMeshProps) {
         <planeGeometry args={[planeSize, planeSize, 512, 512]} />
         <meshStandardMaterial
           map={lowResTexture}
-          displacementMap={displacementTexture}
+          displacementMap={globalDisplacementTexture}
           displacementScale={15}
         />
       </mesh>
