@@ -25,3 +25,11 @@ dist-ssr
 
 *.mp4
 plans/
+
+# TanStack Router auto-generated
+src/routeTree.gen.ts
+.output/
+
+# Environment
+.env
+.env.local
