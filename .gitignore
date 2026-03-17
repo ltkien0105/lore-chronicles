@@ -24,7 +24,6 @@ dist-ssr
 *.sw?
 
 *.mp4
-plans/
 
 # TanStack Router auto-generated
 src/routeTree.gen.ts
