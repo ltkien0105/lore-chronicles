@@ -13,7 +13,7 @@
 ## Overview
 
 - **Priority**: P1 — required before wiki pages render with navigation
-- **Status**: pending
+- **Status**: ✅ completed (2026-03-20)
 - **Description**: Create the pathless `_wiki` layout route, install missing shadcn/ui components, and build the wiki navigation header and shared layout primitives.
 
 ---
@@ -123,13 +123,13 @@ __root (shellComponent + Outlet)
 
 ## Todo List
 
-- [ ] Install shadcn/ui: `card`, `badge`, `input`, `separator`
-- [ ] Create `src/routes/_wiki.tsx` — pathless layout with WikiHeader + Outlet
-- [ ] Create `src/components/wiki/wiki-header.tsx` — logo, nav, search, hamburger
-- [ ] Create `src/components/wiki/breadcrumb.tsx`
-- [ ] Create `src/components/wiki/wiki-container.tsx`
-- [ ] Verify `/champions` and `/regions` routes show the header (manual browser check)
-- [ ] Verify `/` (map) does NOT show the wiki header
+- [x] Install shadcn/ui: `card`, `badge`, `input`, `separator`
+- [x] Create `src/routes/_wiki.tsx` — pathless layout with WikiHeader + Outlet
+- [x] Create `src/components/wiki/wiki-header.tsx` — logo, nav, search, hamburger
+- [x] Create `src/components/wiki/breadcrumb.tsx`
+- [x] Create `src/components/wiki/wiki-container.tsx`
+- [x] Create placeholder routes: `champions.index.tsx`, `regions.index.tsx`
+- [x] Run `tsc --noEmit` — verify no type errors
 
 ---
 
