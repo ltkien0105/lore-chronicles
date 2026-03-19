@@ -19,7 +19,7 @@ Implement the full wiki section: champion list + detail pages, region list + det
 
 | # | Phase | Status | Progress | File |
 |---|-------|--------|----------|------|
-| 1 | Drizzle Relations & Server Functions | pending | 0% | [phase-01](phase-01-drizzle-relations-server-functions.md) |
+| 1 | Drizzle Relations & Server Functions | ✅ completed | 100% | [phase-01](phase-01-drizzle-relations-server-functions.md) |
 | 2 | Layout & Navigation | pending | 0% | [phase-02](phase-02-layout-navigation.md) |
 | 3 | Region Pages | pending | 0% | [phase-03](phase-03-region-pages.md) |
 | 4 | Champion Pages | pending | 0% | [phase-04](phase-04-champion-pages.md) |

@@ -12,7 +12,7 @@
 ## Overview
 
 - **Priority**: P1 — blocks all other phases
-- **Status**: pending
+- **Status**: ✅ completed (2026-03-19)
 - **Description**: Add Drizzle `relations()` definitions so `db.query` API supports `with:` joins. Create typed server functions for data fetching. Fix root route to render child routes.
 
 ---
@@ -114,13 +114,13 @@ src/routes/
 
 ## Todo List
 
-- [ ] Create `src/db/schema/drizzle-relations.ts`
-- [ ] Export relations from `src/db/schema/index.ts`
-- [ ] Create `src/server/regions.ts` with `getRegions` + `getRegionBySlug`
-- [ ] Create `src/server/champions.ts` with `getChampions` + `getChampionBySlug`
-- [ ] Create `src/server/search.ts` with `searchAll`
-- [ ] Update `src/routes/__root.tsx` — add `component` with `<Outlet />`
-- [ ] Run `tsc --noEmit` — verify no type errors
+- [x] Create `src/db/schema/drizzle-relations.ts`
+- [x] Export relations from `src/db/schema/index.ts`
+- [x] Create `src/server/regions.ts` with `getRegions` + `getRegionBySlug`
+- [x] Create `src/server/champions.ts` with `getChampions` + `getChampionBySlug`
+- [x] Create `src/server/search.ts` with `searchAll`
+- [x] Update `src/routes/__root.tsx` — add `component` with `<Outlet />`
+- [x] Run `tsc --noEmit` — verify no type errors
 
 ---
 
