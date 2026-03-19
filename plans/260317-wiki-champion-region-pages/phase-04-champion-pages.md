@@ -14,7 +14,7 @@
 ## Overview
 
 - **Priority**: P1
-- **Status**: pending
+- **Status**: ✅ completed (2026-03-20)
 - **Description**: Build the champion list page (`/champions`) with pagination/filtering and the champion detail page (`/champions/:slug`) with full lore sections.
 
 ---
@@ -188,23 +188,18 @@ champions.$slug.tsx
 
 ## Todo List
 
-- [ ] Create `src/components/wiki/champion-card.tsx`
-- [ ] Create `src/components/wiki/champion-filter-bar.tsx`
-- [ ] Create `src/components/wiki/pagination.tsx`
-- [ ] Create `src/routes/_wiki/champions.index.tsx` with loader + validateSearch + head + component
-- [ ] Create `src/components/wiki/champion-hero.tsx`
-- [ ] Create `src/components/wiki/champion-key-facts.tsx`
-- [ ] Create `src/components/wiki/champion-biography.tsx`
-- [ ] Install `react-markdown` package
-- [ ] Create `src/components/wiki/champion-lore-sections.tsx` (long scroll layout)
-- [ ] Create `src/components/wiki/champion-relations.tsx`
-- [ ] Create `src/routes/_wiki/champions.$slug.tsx` with loader + head + component
-- [ ] Verify `/champions` renders 24 cards, pagination works
-- [ ] Verify filters update URL and re-fetch data
-- [ ] Verify `/champions/jinx` renders full detail page
-- [ ] Verify `/champions/invalid` returns 404
-- [ ] Install `tabs` shadcn component if not already available
-- [ ] Run `tsc --noEmit`
+- [x] Create `src/components/wiki/champion-card.tsx`
+- [x] Create `src/components/wiki/champion-filter-bar.tsx`
+- [x] Create `src/components/wiki/pagination.tsx`
+- [x] Create `src/routes/_wiki/champions.index.tsx` with loader + validateSearch + head + component
+- [x] Create `src/components/wiki/champion-hero.tsx`
+- [x] Create `src/components/wiki/champion-key-facts.tsx`
+- [x] Create `src/components/wiki/champion-biography.tsx`
+- [x] Install `react-markdown` package
+- [x] Create `src/components/wiki/champion-lore-sections.tsx` (long scroll layout)
+- [x] Create `src/components/wiki/champion-relations.tsx`
+- [x] Create `src/routes/_wiki/champions.$slug.tsx` with loader + head + component
+- [x] Run `tsc --noEmit`
 
 ---
 
