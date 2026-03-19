@@ -7,13 +7,22 @@ export type RegionWithChampions = Region & {
   champions: Pick<Champion, "id" | "name" | "slug" | "avatarUrl" | "role">[];
 };
 
+export type RegionWithChampionCount = Region & {
+  champions: { id: number }[];
+};
+
 /**
- * Get all regions ordered by name
+ * Get all regions ordered by name with champion count
  */
 export const getRegions = createServerFn({ method: "GET" }).handler(
-  async (): Promise<Region[]> => {
+  async (): Promise<RegionWithChampionCount[]> => {
     return db.query.regions.findMany({
       orderBy: [asc(regions.name)],
+      with: {
+        champions: {
+          columns: { id: true },
+        },
+      },
     });
   }
 );

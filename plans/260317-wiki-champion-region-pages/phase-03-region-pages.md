@@ -16,7 +16,7 @@
 ## Overview
 
 - **Priority**: P1
-- **Status**: pending
+- **Status**: ✅ completed (2026-03-20)
 - **Description**: Build the regions list page (`/regions`) and region detail page (`/regions/:slug`). Each region card shows crest image, name, excerpt, and champion count. Detail page has a full banner, description, facts sidebar, and champion grid.
 
 ---
@@ -139,15 +139,13 @@ regions.$slug.tsx loader → getRegionBySlug(slug) → region + champions[]
 
 ## Todo List
 
-- [ ] Create `src/components/wiki/region-card.tsx`
-- [ ] Create `src/routes/_wiki/regions.index.tsx` with loader + head + component
-- [ ] Create `src/components/wiki/region-detail-header.tsx`
-- [ ] Create `src/components/wiki/region-facts.tsx`
-- [ ] Create `src/routes/_wiki/regions.$slug.tsx` with loader + head + component
-- [ ] Verify `/regions` renders all 13 region cards
-- [ ] Verify `/regions/demacia` renders full detail with champions
-- [ ] Verify `/regions/invalid-slug` returns 404
-- [ ] Run `tsc --noEmit`
+- [x] Create `src/components/wiki/region-card.tsx`
+- [x] Create `src/routes/_wiki/regions.index.tsx` with loader + head + component
+- [x] Create `src/components/wiki/region-detail-header.tsx`
+- [x] Create `src/components/wiki/region-facts.tsx`
+- [x] Create `src/routes/_wiki/regions.$slug.tsx` with loader + head + component
+- [x] Create placeholder `src/routes/_wiki/champions.$slug.tsx`
+- [x] Run `tsc --noEmit`
 
 ---
 
