@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { WikiContainer } from "@/components/wiki/wiki-container";
 import { RegionCard } from "@/components/wiki/region-card";
+import { WikiSkeleton } from "@/components/wiki/wiki-skeleton";
+import { WikiError } from "@/components/wiki/wiki-error";
 import { getRegions } from "@/server/regions";
 
 export const Route = createFileRoute("/_wiki/regions/")({
@@ -18,6 +20,20 @@ export const Route = createFileRoute("/_wiki/regions/")({
       },
     ],
   }),
+  pendingComponent: () => (
+    <WikiContainer>
+      <header className="mb-8">
+        <div className="h-9 w-64 animate-pulse rounded bg-stone-800" />
+        <div className="mt-2 h-5 w-96 animate-pulse rounded bg-stone-800" />
+      </header>
+      <WikiSkeleton count={13} variant="region" />
+    </WikiContainer>
+  ),
+  errorComponent: ({ error }) => (
+    <WikiContainer>
+      <WikiError message={error.message} />
+    </WikiContainer>
+  ),
   component: RegionsPage,
 });
 

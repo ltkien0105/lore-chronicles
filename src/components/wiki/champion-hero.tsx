@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface ChampionHeroProps {
@@ -20,17 +21,31 @@ export function ChampionHero({
   bgUrl,
   className,
 }: ChampionHeroProps) {
+  const [bgError, setBgError] = useState(false);
+  const [avatarError, setAvatarError] = useState(false);
+  const showBg = bgUrl && !bgError;
+
   return (
     <div
       className={cn(
         "relative flex min-h-[400px] items-end",
-        bgUrl ? "bg-cover bg-center" : "border-b border-primary/30 bg-secondary",
+        showBg ? "bg-cover bg-center" : "border-b border-primary/30 bg-secondary",
         className
       )}
-      style={bgUrl ? { backgroundImage: `url(${bgUrl})` } : undefined}
+      style={showBg ? { backgroundImage: `url(${bgUrl})` } : undefined}
     >
+      {/* Hidden img to detect bg load error */}
+      {bgUrl && !bgError && (
+        <img
+          src={bgUrl}
+          alt=""
+          className="hidden"
+          onError={() => setBgError(true)}
+        />
+      )}
+
       {/* Dark gradient overlay */}
-      {bgUrl && (
+      {showBg && (
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-transparent" />
       )}
 
@@ -38,13 +53,23 @@ export function ChampionHero({
       <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
         <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-end">
           {/* Avatar */}
-          {avatarUrl && (
+          {avatarUrl && !avatarError && (
             <div className="h-32 w-32 flex-shrink-0 overflow-hidden rounded-lg border-2 border-primary shadow-2xl sm:h-40 sm:w-40">
               <img
                 src={avatarUrl}
                 alt={name}
                 className="h-full w-full object-cover"
+                onError={() => setAvatarError(true)}
               />
+            </div>
+          )}
+
+          {/* Fallback avatar */}
+          {(!avatarUrl || avatarError) && (
+            <div className="h-32 w-32 flex-shrink-0 overflow-hidden rounded-lg border-2 border-primary bg-stone-800 shadow-2xl sm:h-40 sm:w-40 flex items-center justify-center">
+              <span className="text-5xl font-heading text-muted-foreground">
+                {name.charAt(0)}
+              </span>
             </div>
           )}
 

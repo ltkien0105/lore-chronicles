@@ -6,6 +6,8 @@ import { ChampionKeyFacts } from "@/components/wiki/champion-key-facts";
 import { ChampionBiography } from "@/components/wiki/champion-biography";
 import { ChampionLoreSections } from "@/components/wiki/champion-lore-sections";
 import { ChampionRelations } from "@/components/wiki/champion-relations";
+import { WikiDetailSkeleton } from "@/components/wiki/wiki-skeleton";
+import { WikiError } from "@/components/wiki/wiki-error";
 import { getChampionBySlug } from "@/server/champions";
 
 export const Route = createFileRoute("/_wiki/champions/$slug")({
@@ -34,6 +36,16 @@ export const Route = createFileRoute("/_wiki/champions/$slug")({
       },
     ],
   }),
+  pendingComponent: () => (
+    <WikiContainer>
+      <WikiDetailSkeleton />
+    </WikiContainer>
+  ),
+  errorComponent: ({ error }) => (
+    <WikiContainer>
+      <WikiError message={error.message} />
+    </WikiContainer>
+  ),
   component: ChampionDetailPage,
 });
 

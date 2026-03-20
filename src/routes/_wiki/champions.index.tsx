@@ -3,6 +3,9 @@ import { WikiContainer } from "@/components/wiki/wiki-container";
 import { ChampionCard } from "@/components/wiki/champion-card";
 import { ChampionFilterBar } from "@/components/wiki/champion-filter-bar";
 import { Pagination } from "@/components/wiki/pagination";
+import { WikiSkeleton } from "@/components/wiki/wiki-skeleton";
+import { WikiError } from "@/components/wiki/wiki-error";
+import { EmptyState } from "@/components/wiki/empty-state";
 import { getChampions } from "@/server/champions";
 import { getRegions } from "@/server/regions";
 
@@ -52,6 +55,20 @@ export const Route = createFileRoute("/_wiki/champions/")({
       },
     ],
   }),
+  pendingComponent: () => (
+    <WikiContainer>
+      <header className="mb-8">
+        <div className="h-9 w-48 animate-pulse rounded bg-stone-800" />
+        <div className="mt-2 h-5 w-72 animate-pulse rounded bg-stone-800" />
+      </header>
+      <WikiSkeleton count={24} variant="champion" />
+    </WikiContainer>
+  ),
+  errorComponent: ({ error }) => (
+    <WikiContainer>
+      <WikiError message={error.message} />
+    </WikiContainer>
+  ),
   component: ChampionsPage,
 });
 
@@ -77,11 +94,11 @@ function ChampionsPage() {
       />
 
       {champions.length === 0 ? (
-        <div className="py-12 text-center">
-          <p className="text-lg text-muted-foreground">
-            No champions found matching your filters.
-          </p>
-        </div>
+        <EmptyState
+          title="No champions found"
+          description="Try adjusting your filters or search terms."
+          action={{ label: "Clear filters", href: "/champions" }}
+        />
       ) : (
         <>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">

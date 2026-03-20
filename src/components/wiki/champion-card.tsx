@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -19,6 +20,8 @@ interface ChampionCardProps {
  * Champion card for list pages
  */
 export function ChampionCard({ champion, className }: ChampionCardProps) {
+  const [imgError, setImgError] = useState(false);
+
   return (
     <Link
       to="/champions/$slug"
@@ -35,11 +38,12 @@ export function ChampionCard({ champion, className }: ChampionCardProps) {
         <CardContent className="p-0">
           {/* Avatar */}
           <div className="relative aspect-square overflow-hidden bg-secondary/50">
-            {champion.avatarUrl ? (
+            {champion.avatarUrl && !imgError ? (
               <img
                 src={champion.avatarUrl}
                 alt={champion.name}
                 className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+                onError={() => setImgError(true)}
               />
             ) : (
               <div className="flex h-full w-full items-center justify-center text-4xl font-heading text-muted-foreground">

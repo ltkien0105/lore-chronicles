@@ -3,6 +3,8 @@ import { WikiContainer } from "@/components/wiki/wiki-container";
 import { Breadcrumb } from "@/components/wiki/breadcrumb";
 import { RegionDetailHeader } from "@/components/wiki/region-detail-header";
 import { RegionFacts } from "@/components/wiki/region-facts";
+import { WikiDetailSkeleton } from "@/components/wiki/wiki-skeleton";
+import { WikiError } from "@/components/wiki/wiki-error";
 import { getRegionBySlug } from "@/server/regions";
 
 export const Route = createFileRoute("/_wiki/regions/$slug")({
@@ -22,6 +24,16 @@ export const Route = createFileRoute("/_wiki/regions/$slug")({
       },
     ],
   }),
+  pendingComponent: () => (
+    <WikiContainer>
+      <WikiDetailSkeleton />
+    </WikiContainer>
+  ),
+  errorComponent: ({ error }) => (
+    <WikiContainer>
+      <WikiError message={error.message} />
+    </WikiContainer>
+  ),
   component: RegionDetailPage,
 });
 

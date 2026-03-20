@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { REGIONS } from "@/components/regions/region-config";
@@ -27,6 +28,7 @@ function getRegionColor(slug: string): string {
  * Region card for list pages
  */
 export function RegionCard({ region, className }: RegionCardProps) {
+  const [imgError, setImgError] = useState(false);
   const accentColor = getRegionColor(region.slug);
   const championCount = region.champions?.length ?? 0;
   const excerpt = region.description
@@ -55,11 +57,12 @@ export function RegionCard({ region, className }: RegionCardProps) {
         <CardContent className="p-0">
           {/* Crest Image */}
           <div className="relative flex h-40 items-center justify-center bg-secondary/50">
-            {region.crestImage ? (
+            {region.crestImage && !imgError ? (
               <img
                 src={region.crestImage}
                 alt={`${region.name} crest`}
                 className="h-28 w-28 object-contain transition-transform duration-300 group-hover:scale-110"
+                onError={() => setImgError(true)}
               />
             ) : (
               <div

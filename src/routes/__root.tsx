@@ -6,8 +6,10 @@ import {
 } from "@tanstack/react-router";
 import * as React from "react";
 import appCss from "@/index.css?url";
+import { NotFound } from "@/components/wiki/not-found";
 
 export const Route = createRootRoute({
+  notFoundComponent: NotFound,
   head: () => ({
     meta: [
       { charSet: "utf-8" },
