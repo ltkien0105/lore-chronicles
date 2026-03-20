@@ -16,7 +16,9 @@ export const championsRelations = drizzleRelations(champions, ({ one, many }) =>
     fields: [champions.regionId],
     references: [regions.id],
   }),
-  relationsFrom: many(relationsTable),
+  relationsFrom: many(relationsTable, {
+    relationName: "champion1",
+  }),
 }));
 
 export const relationsTableRelations = drizzleRelations(relationsTable, ({ one }) => ({
