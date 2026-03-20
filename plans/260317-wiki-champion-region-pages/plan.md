@@ -1,12 +1,13 @@
 ---
 title: "Phase 2 — Wiki Champion & Region Pages"
 description: "Build wiki pages for champions and regions: SSR routes, data fetching via server functions, navigation layout, and SEO."
-status: pending
+status: completed
 priority: P1
 effort: "3–4 days"
 branch: main
 tags: [wiki, champions, regions, ssr, tanstack-start, drizzle]
 created: 2026-03-17
+completed: 2026-03-20
 ---
 
 # Phase 2 — Wiki Champion & Region Pages
@@ -23,7 +24,7 @@ Implement the full wiki section: champion list + detail pages, region list + det
 | 2 | Layout & Navigation | ✅ completed | 100% | [phase-02](phase-02-layout-navigation.md) |
 | 3 | Region Pages | ✅ completed | 100% | [phase-03](phase-03-region-pages.md) |
 | 4 | Champion Pages | ✅ completed | 100% | [phase-04](phase-04-champion-pages.md) |
-| 5 | Polish & Testing | pending | 0% | [phase-05](phase-05-polish-and-testing.md) |
+| 5 | Polish & Testing | ✅ completed | 100% | [phase-05](phase-05-polish-and-testing.md) |
 
 ## Key Dependencies
 
