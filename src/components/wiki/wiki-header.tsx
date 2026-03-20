@@ -8,6 +8,7 @@ const navLinks = [
   { label: "Map", href: "/" },
   { label: "Champions", href: "/champions" },
   { label: "Regions", href: "/regions" },
+  { label: "Search", href: "/search" },
 ] as const;
 
 /**
@@ -20,7 +21,7 @@ export function WikiHeader() {
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && searchValue.trim()) {
-      navigate({ to: "/champions", search: { search: searchValue.trim() } });
+      navigate({ to: "/search", search: { q: searchValue.trim() } });
       setSearchValue("");
       setMenuOpen(false);
     }
