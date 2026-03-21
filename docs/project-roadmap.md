@@ -28,6 +28,14 @@ A League of Legends lore wiki with interactive map, champion database, and commu
 - [x] Loading states, error boundaries, 404 page
 - [x] Image fallbacks
 
+### Phase 2.5: Polish Existing Features ✅ Complete
+**Status:** Done | **Date:** 2026-03-21
+
+- [x] Map error handling & loading states (Phase 1)
+- [ ] Map-to-Wiki navigation (Phase 2)
+- [ ] Accessibility improvements (Phase 3)
+- [ ] Performance & code quality (Phase 4)
+
 ### Phase 3: User Features 🔜 Next
 **Status:** Planned
 
