@@ -1,6 +1,6 @@
 import { Outlet, createFileRoute } from "@tanstack/react-router";
 import { WikiHeader } from "@/components/wiki/wiki-header";
-import { SkipLink } from "@/components/skip-link";
+import { SkipLink } from "@/components/SkipLink";
 
 export const Route = createFileRoute("/_wiki")({
   component: WikiLayout,

@@ -2,10 +2,10 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Suspense, lazy, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { isWebGLSupported } from "@/lib/detect-webgl";
-import MapLoadingSpinner from "@/components/map-loading-spinner";
-import WebGLErrorFallback from "@/components/webgl-error-fallback";
+import MapLoadingSpinner from "@/components/MapLoadingSpinner";
+import WebGLErrorFallback from "@/components/WebGLErrorFallback";
 
-const MapCanvas = lazy(() => import("@/components/map-canvas"));
+const MapCanvas = lazy(() => import("@/components/MapCanvas"));
 
 export const Route = createFileRoute("/")({
   component: Home,
