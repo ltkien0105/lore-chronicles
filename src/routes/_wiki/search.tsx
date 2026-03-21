@@ -139,20 +139,26 @@ function SearchPage() {
 
 function SearchForm({ initialQuery }: { initialQuery: string }) {
   return (
-    <form action="/search" method="get" className="max-w-xl">
+    <form action="/search" method="get" className="max-w-xl" role="search">
       <div className="relative">
+        <label htmlFor="search-input" className="sr-only">
+          Search champions and regions
+        </label>
         <input
-          type="text"
+          id="search-input"
+          type="search"
           name="q"
           defaultValue={initialQuery}
           placeholder="Search champions, regions..."
           className="w-full rounded-lg border border-primary/30 bg-secondary px-4 py-3 pl-10 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+          aria-label="Search champions and regions"
         />
         <svg
           className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
+          aria-hidden="true"
         >
           <path
             strokeLinecap="round"

@@ -1,5 +1,6 @@
 import { Outlet, createFileRoute } from "@tanstack/react-router";
 import { WikiHeader } from "@/components/wiki/wiki-header";
+import { SkipLink } from "@/components/skip-link";
 
 export const Route = createFileRoute("/_wiki")({
   component: WikiLayout,
@@ -12,8 +13,9 @@ export const Route = createFileRoute("/_wiki")({
 function WikiLayout() {
   return (
     <div className="min-h-screen bg-background">
+      <SkipLink />
       <WikiHeader />
-      <main>
+      <main id="main-content">
         <Outlet />
       </main>
     </div>

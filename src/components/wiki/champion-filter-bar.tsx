@@ -85,19 +85,23 @@ export function ChampionFilterBar({
         <div className="relative lg:col-span-2">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
+            id="champion-search"
             type="search"
             placeholder="Search champions..."
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             className="h-10 border-primary/20 bg-secondary pl-9 placeholder:text-muted-foreground focus-visible:ring-primary"
+            aria-label="Search champions"
           />
         </div>
 
         {/* Region Select */}
         <select
+          id="region-filter"
           value={currentFilters.regionId ?? ""}
           onChange={handleRegionChange}
           className="h-10 rounded-md border border-primary/20 bg-secondary px-3 text-sm text-foreground transition-colors hover:border-primary focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
+          aria-label="Filter champions by region"
         >
           <option value="">All Regions</option>
           {regions.map((region) => (
@@ -109,9 +113,11 @@ export function ChampionFilterBar({
 
         {/* Role Select */}
         <select
+          id="role-filter"
           value={currentFilters.role ?? ""}
           onChange={handleRoleChange}
           className="h-10 rounded-md border border-primary/20 bg-secondary px-3 text-sm text-foreground transition-colors hover:border-primary focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
+          aria-label="Filter champions by role"
         >
           <option value="">All Roles</option>
           {ROLES.map((role) => (
@@ -127,6 +133,7 @@ export function ChampionFilterBar({
         <button
           onClick={clearFilters}
           className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
+          aria-label="Clear all filters"
         >
           <X className="h-4 w-4" />
           Clear filters

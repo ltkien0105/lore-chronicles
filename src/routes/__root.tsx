@@ -7,6 +7,7 @@ import {
 import * as React from "react";
 import appCss from "@/index.css?url";
 import { NotFound } from "@/components/wiki/not-found";
+import { RouteAnnouncer } from "@/components/route-announcer";
 
 export const Route = createRootRoute({
   notFoundComponent: NotFound,
@@ -54,6 +55,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="bg-background text-foreground font-body antialiased">
+        <RouteAnnouncer />
         {children}
         <Scripts />
       </body>
