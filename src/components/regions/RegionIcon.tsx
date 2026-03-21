@@ -1,7 +1,8 @@
 /**
- * Region icon sprite component with hover detection
+ * Region icon sprite component with hover detection and click navigation
  * Swaps between base and hover texture variants on pointer events
  * Displays region name text below the icon
+ * Implements click-vs-drag detection with 5px threshold
  */
 
 import { memo, useRef } from "react";
@@ -20,7 +21,11 @@ interface RegionIconProps {
   hoverTexture: THREE.Texture;
   isHovered: boolean;
   onHover: (regionId: string | null) => void;
+  onRegionClick?: (slug: string) => void;
 }
+
+// Pointer delta tracking constants
+const DRAG_THRESHOLD_PX = 5; // Pointer movement threshold to distinguish click from drag
 
 function RegionIconInner({
   region,
@@ -28,9 +33,36 @@ function RegionIconInner({
   hoverTexture,
   isHovered,
   onHover,
+  onRegionClick,
 }: RegionIconProps) {
   const { camera, size } = useThree();
   const spriteRef = useRef<THREE.Sprite>(null);
+
+  // Use ref instead of state to avoid unnecessary re-renders in R3F
+  const pointerStartRef = useRef<{ x: number; y: number } | null>(null);
+
+  const handlePointerDown = (e: ThreeEvent<PointerEvent>) => {
+    e.stopPropagation();
+    // Store initial pointer position
+    pointerStartRef.current = { x: e.clientX, y: e.clientY };
+  };
+
+  const handlePointerUp = (e: ThreeEvent<PointerEvent>) => {
+    e.stopPropagation();
+
+    // Only fire click if pointer hasn't moved more than threshold (drag detection)
+    if (pointerStartRef.current && onRegionClick) {
+      const deltaX = Math.abs(e.clientX - pointerStartRef.current.x);
+      const deltaY = Math.abs(e.clientY - pointerStartRef.current.y);
+      const delta = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+      if (delta < DRAG_THRESHOLD_PX) {
+        onRegionClick(region.id);
+      }
+    }
+
+    pointerStartRef.current = null;
+  };
 
   const handlePointerOver = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
@@ -72,6 +104,8 @@ function RegionIconInner({
         scale={region.iconSize}
         onPointerOver={handlePointerOver}
         onPointerOut={handlePointerOut}
+        onPointerDown={handlePointerDown}
+        onPointerUp={handlePointerUp}
       >
         <spriteMaterial
           map={currentTexture}

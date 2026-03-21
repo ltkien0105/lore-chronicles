@@ -15,7 +15,13 @@ const TILT_CONFIG = {
   EASING: 0.08, // Lerp factor for smooth transition
 };
 
-export default function TerrainTexture({ planeSize }: { planeSize: number }) {
+export default function TerrainTexture({
+  planeSize,
+  onRegionClick,
+}: {
+  planeSize: number;
+  onRegionClick?: (slug: string) => void;
+}) {
   const { camera, size } = useThree();
 
   // Use ref to track visibility without causing re-renders
@@ -91,7 +97,7 @@ export default function TerrainTexture({ planeSize }: { planeSize: number }) {
         <TerrainLodMesh planeSize={planeSize} />
 
         <group ref={regionGroupRef}>
-          <RegionManager planeSize={planeSize} />
+          <RegionManager planeSize={planeSize} onRegionClick={onRegionClick} />
         </group>
         <group ref={pinGroupRef}>
           <PinManager />

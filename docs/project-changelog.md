@@ -11,6 +11,40 @@ All notable changes to Lore Chronicles.
 - **404 Page** - Styled not-found page with navigation links
 - **Image Fallbacks** - Placeholder display when images fail to load
 
+## [0.4.0] - 2026-03-21
+
+### Added - Phase 2.5: Map-to-Wiki Navigation
+
+#### Region Click Navigation
+- **RegionIcon Component** (`src/components/map/region-icon.tsx`)
+  - Click handler with 5px drag threshold to distinguish clicks from pans
+  - Navigation to region detail pages via TanStack Router
+  - Maintains interactive state during drag operations
+
+#### Callback Threading Architecture
+- **MapCanvas Integration** (`src/components/map/map-canvas.tsx`)
+  - Improved callback chains for region interactions
+  - Proper event propagation from TerrainTexture → RegionManager → RegionIcon
+
+- **TerrainTexture Component** (`src/components/map/terrain-texture.tsx`)
+  - Enhanced pointer event handling for accurate region detection
+  - Callback threading for region click detection
+
+- **RegionManager Component** (`src/components/map/region-manager.tsx`)
+  - Centralized region interaction management
+  - Improved callback coordination between children
+
+#### Navigation Integration
+- **Router Integration** (`src/routes/index.tsx`)
+  - TanStack Router integration for region navigation
+  - Seamless transitions from map to region detail pages
+  - URL navigation via `navigate()` callback chain
+
+### Technical
+- Drag threshold prevents accidental navigation during map panning
+- Callback chain: RegionIcon → RegionManager → MapCanvas → Router
+- No breaking changes to existing map functionality
+
 ## [0.3.0] - 2026-03-21
 
 ### Added - Phase 1 Polish: Map Robustness & Error Handling

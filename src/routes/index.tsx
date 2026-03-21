@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Suspense, lazy, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { isWebGLSupported } from "@/lib/detect-webgl";
@@ -12,6 +12,8 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
+  const navigate = useNavigate();
+
   // Lazy initialization - check WebGL support only once on mount
   const [webglSupported, setWebglSupported] = useState<boolean | null>(() => {
     if (typeof window !== 'undefined') {
@@ -19,6 +21,11 @@ function Home() {
     }
     return null;
   });
+
+  // Handle region click navigation
+  const handleRegionClick = (slug: string) => {
+    navigate({ to: '/regions/$slug', params: { slug } });
+  };
 
   // Show loading while checking WebGL support (SSR only)
   if (webglSupported === null) {
@@ -37,7 +44,7 @@ function Home() {
         onReset={() => window.location.reload()}
       >
         <Suspense fallback={<MapLoadingSpinner />}>
-          <MapCanvas />
+          <MapCanvas onRegionClick={handleRegionClick} />
         </Suspense>
       </ErrorBoundary>
     </div>

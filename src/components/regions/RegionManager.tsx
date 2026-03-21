@@ -7,13 +7,14 @@ import { DebugPositionLogger } from "./DebugPositionLogger";
 
 interface RegionManagerProps {
   planeSize: number;
+  onRegionClick?: (slug: string) => void;
 }
 
 /**
  * Region manager component - container for all region icons and terrain overlays.
  * Manages hover state and coordinates rendering of all region components.
  */
-function RegionManagerInner({ planeSize }: RegionManagerProps) {
+function RegionManagerInner({ planeSize, onRegionClick }: RegionManagerProps) {
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
   const textures = useRegionTextures();
 
@@ -52,6 +53,7 @@ function RegionManagerInner({ planeSize }: RegionManagerProps) {
             hoverTexture={iconTextures.hover}
             isHovered={hoveredRegion === region.id}
             onHover={handleHover}
+            onRegionClick={onRegionClick}
           />
         );
       })}
