@@ -6,16 +6,19 @@ interface PaginationProps {
   total: number;
   pageSize: number;
   currentPage: number;
+  basePath?: string; // Route path e.g., "/champions" or "/regions"
   className?: string;
 }
 
 /**
  * Pagination controls with prev/next and page numbers
+ * Route-agnostic: works with any basePath
  */
 export function Pagination({
   total,
   pageSize,
   currentPage,
+  basePath = "/champions", // Default for backwards compatibility
   className,
 }: PaginationProps) {
   const totalPages = Math.ceil(total / pageSize);
@@ -55,7 +58,7 @@ export function Pagination({
       {/* Previous */}
       {currentPage > 1 ? (
         <Link
-          to="/champions"
+          to={basePath}
           search={(prev) => ({ ...prev, page: currentPage - 1 })}
           className="flex h-9 w-9 items-center justify-center rounded-md border border-primary/20 text-muted-foreground transition-colors hover:border-primary hover:text-primary"
           aria-label="Previous page"
@@ -73,7 +76,7 @@ export function Pagination({
         typeof page === "number" ? (
           <Link
             key={index}
-            to="/champions"
+            to={basePath}
             search={(prev) => ({ ...prev, page })}
             className={cn(
               "flex h-9 min-w-9 items-center justify-center rounded-md border px-3 text-sm font-medium transition-colors",
@@ -97,7 +100,7 @@ export function Pagination({
       {/* Next */}
       {currentPage < totalPages ? (
         <Link
-          to="/champions"
+          to={basePath}
           search={(prev) => ({ ...prev, page: currentPage + 1 })}
           className="flex h-9 w-9 items-center justify-center rounded-md border border-primary/20 text-muted-foreground transition-colors hover:border-primary hover:text-primary"
           aria-label="Next page"
