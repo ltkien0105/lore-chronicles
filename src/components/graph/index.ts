@@ -2,17 +2,17 @@
  * Barrel export for graph components
  */
 
-export { RelationshipGraphCanvas } from "./relationship-graph-canvas";
-export { GraphScene } from "./graph-scene";
-export { GraphNode } from "./graph-node";
-export { GraphEdge } from "./graph-edge";
-export { GraphControls } from "./graph-controls";
-export { GraphFilterPanel } from "./graph-filter-panel";
-export { GraphSearch } from "./graph-search";
-export { GraphInfoPanel } from "./graph-info-panel";
-export { GraphLoadingState } from "./graph-loading-state";
-export { GraphMobileFallback } from "./graph-mobile-fallback";
-export { useGraphFilters } from "./use-graph-filters";
-export { useGraphInteractions } from "./use-graph-interactions";
-export { useCameraAnimation } from "./use-camera-animation";
-export { useDeviceDetection } from "./use-device-detection";
+export { RelationshipGraphCanvas } from "./RelationshipGraphCanvas";
+export { GraphScene } from "./GraphScene";
+export { GraphNode } from "./GraphNode";
+export { GraphEdge } from "./GraphEdge";
+export { GraphControls } from "./GraphControls";
+export { GraphFilterPanel } from "./GraphFilterPanel";
+export { GraphSearch } from "./GraphSearch";
+export { GraphInfoPanel } from "./GraphInfoPanel";
+export { GraphLoadingState } from "./GraphLoadingState";
+export { GraphMobileFallback } from "./GraphMobileFallback";
+export { useGraphFilters } from "./useGraphFilters";
+export { useGraphInteractions } from "./useGraphInteractions";
+export { useCameraAnimation } from "./useCameraAnimation";
+export { useDeviceDetection } from "./useDeviceDetection";

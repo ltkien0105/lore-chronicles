@@ -6,11 +6,11 @@
 import { useRef, useEffect, useState, useMemo } from "react";
 import ForceGraph3D from "three-forcegraph";
 import type { OrbitControls as OrbitControlsType } from "three-stdlib";
-import { GraphNode } from "./graph-node";
-import { GraphEdge } from "./graph-edge";
-import { GraphControls } from "./graph-controls";
-import { useGraphInteractions } from "./use-graph-interactions";
-import { useCameraAnimation } from "./use-camera-animation";
+import { GraphNode } from "./GraphNode";
+import { GraphEdge } from "./GraphEdge";
+import { GraphControls } from "./GraphControls";
+import { useGraphInteractions } from "./useGraphInteractions";
+import { useCameraAnimation } from "./useCameraAnimation";
 import type { GraphData } from "@/server/relationships";
 import { GRAPH_CONFIG } from "@/lib/graph-constants";
 
