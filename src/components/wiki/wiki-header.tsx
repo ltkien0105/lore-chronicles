@@ -8,6 +8,7 @@ const navLinks = [
   { label: "Map", href: "/" },
   { label: "Champions", href: "/champions" },
   { label: "Regions", href: "/regions" },
+  { label: "Graph", href: "/relationships" },
   { label: "Search", href: "/search" },
 ] as const;
 

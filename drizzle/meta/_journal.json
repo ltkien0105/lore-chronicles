@@ -15,6 +15,13 @@
       "when": 1773675657847,
       "tag": "0001_soft_tyger_tiger",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1774194819261,
+      "tag": "0002_omniscient_spiral",
+      "breakpoints": true
     }
   ]
 }
