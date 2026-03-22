@@ -1,7 +1,6 @@
 import "dotenv/config";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import { eq } from "drizzle-orm";
 import { champions, relations, RELATIONSHIP_TYPES } from "../src/db/schema";
 
 type RelationshipSeed = {
