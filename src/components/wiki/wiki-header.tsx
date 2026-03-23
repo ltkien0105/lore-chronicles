@@ -8,7 +8,7 @@ const navLinks = [
   { label: "Map", href: "/" },
   { label: "Champions", href: "/champions" },
   { label: "Regions", href: "/regions" },
-  { label: "Graph", href: "/relationships" },
+  // { label: "Graph", href: "/relationships" }, // TODO: Re-enable when graph feature is ready
   { label: "Search", href: "/search" },
 ] as const;
 

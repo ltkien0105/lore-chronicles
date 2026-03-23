@@ -71,6 +71,7 @@ function ChampionDetailPage() {
               { label: champion.name },
             ]}
           />
+          {/* TODO: Re-enable when graph feature is ready
           <Link
             to="/relationships"
             search={{ focus: champion.slug }}
@@ -79,6 +80,7 @@ function ChampionDetailPage() {
             <Network className="h-4 w-4" />
             View Relationships
           </Link>
+          */}
         </div>
 
         <div className="grid gap-8 lg:grid-cols-3">
