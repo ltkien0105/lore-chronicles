@@ -3,10 +3,9 @@
  * Integrates 3D visualization with filters and info panel
  */
 
-import { Suspense, useMemo, useState } from "react";
+import { Suspense, useMemo, useState, lazy, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import { useNavigate } from "@tanstack/react-router";
-import { GraphScene } from "./GraphScene";
 import { GraphFilterPanel } from "./GraphFilterPanel";
 import { GraphSearch } from "./GraphSearch";
 import { GraphInfoPanel } from "./GraphInfoPanel";
@@ -18,6 +17,20 @@ import { filterGraphData } from "@/lib/filter-graph-data";
 import type { GraphData } from "@/server/relationships";
 import type { RegionWithChampionCount } from "@/server/regions";
 import { GRAPH_CONFIG } from "@/lib/graph-constants";
+
+// Lazy load GraphScene to avoid SSR issues with three-forcegraph
+const GraphScene = lazy(() =>
+  import("./GraphScene").then((mod) => ({ default: mod.GraphScene }))
+);
+
+// Client-only check
+function useIsClient() {
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+  return isClient;
+}
 
 interface RelationshipGraphCanvasProps {
   data: GraphData;
@@ -31,6 +44,7 @@ export function RelationshipGraphCanvas({
   focusSlug,
 }: RelationshipGraphCanvasProps) {
   const navigate = useNavigate();
+  const isClient = useIsClient();
   const { shouldSimplify } = useDeviceDetection();
   const {
     filters,
@@ -69,6 +83,15 @@ export function RelationshipGraphCanvas({
       navigate({ to: "/champions/$slug", params: { slug: node.slug } });
     }
   };
+
+  // Show loading state during SSR
+  if (!isClient) {
+    return (
+      <div className="flex h-full items-center justify-center bg-stone-950">
+        <GraphLoadingState />
+      </div>
+    );
+  }
 
   // Mobile fallback
   if (shouldSimplify) {

@@ -39,29 +39,36 @@ function GraphNodeInner({
 
   // Load avatar texture with fallback to initials
   useEffect(() => {
+    // Always start with initials texture immediately to avoid blank nodes
+    const initialsTexture = createInitialsTexture(node.name);
+    setTexture(initialsTexture);
+
+    // Then try to load the actual avatar
     if (node.avatarUrl) {
       const loader = new THREE.TextureLoader();
+      loader.setCrossOrigin("anonymous");
+
       loader.load(
         node.avatarUrl,
         (loadedTexture) => {
           loadedTexture.minFilter = THREE.LinearFilter;
           loadedTexture.magFilter = THREE.LinearFilter;
-          setTexture(loadedTexture);
+          // Only update if we successfully loaded
+          setTexture((prev) => {
+            if (prev) prev.dispose();
+            return loadedTexture;
+          });
         },
         undefined,
-        () => {
-          // Fallback: create canvas texture with initials
-          setTexture(createInitialsTexture(node.name));
+        (error) => {
+          // Keep using initials texture on error (already set)
+          console.debug(`Failed to load avatar for ${node.name}:`, error);
         }
       );
-    } else {
-      setTexture(createInitialsTexture(node.name));
     }
 
     return () => {
-      if (texture) {
-        texture.dispose();
-      }
+      // Cleanup handled by React state updates
     };
   }, [node.avatarUrl, node.name]);
 
@@ -151,15 +158,24 @@ function GraphNodeInner({
  */
 function createInitialsTexture(name: string): THREE.Texture {
   const canvas = document.createElement("canvas");
-  canvas.width = 128;
-  canvas.height = 128;
+  const size = 256; // Higher resolution for better quality
+  canvas.width = size;
+  canvas.height = size;
   const ctx = canvas.getContext("2d");
+  const center = size / 2;
+  const radius = size / 2 - 8; // Leave room for border
 
   if (ctx) {
-    // Draw background circle
-    ctx.fillStyle = "#3b3b3b";
+    // Draw gold border/glow
+    ctx.fillStyle = "#C89B3C";
     ctx.beginPath();
-    ctx.arc(64, 64, 64, 0, Math.PI * 2);
+    ctx.arc(center, center, radius + 6, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Draw background circle
+    ctx.fillStyle = "#1c1917"; // stone-900
+    ctx.beginPath();
+    ctx.arc(center, center, radius, 0, Math.PI * 2);
     ctx.fill();
 
     // Draw initials
@@ -171,10 +187,10 @@ function createInitialsTexture(name: string): THREE.Texture {
       .slice(0, 2);
 
     ctx.fillStyle = "#C89B3C";
-    ctx.font = "bold 48px sans-serif";
+    ctx.font = `bold ${size * 0.4}px sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(initials, 64, 64);
+    ctx.fillText(initials, center, center);
   }
 
   const texture = new THREE.CanvasTexture(canvas);

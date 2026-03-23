@@ -18,24 +18,24 @@ export const RELATIONSHIP_COLORS = {
  */
 export const GRAPH_CONFIG = {
   // Node settings
-  nodeSize: 1.5,
-  nodeHoverScale: 1.3,
-  nodeMinSize: 1.0,
-  nodeMaxSize: 2.5,
+  nodeSize: 10, // Visible size for nodes
+  nodeHoverScale: 1.2,
+  nodeMinSize: 6.0,
+  nodeMaxSize: 12.0,
 
   // Edge settings
-  edgeWidth: 0.1,
-  edgeOpacity: 0.6,
+  edgeWidth: 0.6,
+  edgeOpacity: 0.9,
   edgeHoverOpacity: 1.0,
 
   // Force simulation settings
-  forceStrength: -100,
-  linkDistance: 30,
+  forceStrength: -250,
+  linkDistance: 70,
   centerStrength: 0.05,
   velocityDecay: 0.4,
 
   // Camera settings
-  cameraPosition: [0, 0, 150] as [number, number, number],
+  cameraPosition: [0, 0, 100] as [number, number, number],
   orbitDamping: 0.1,
   zoomMin: 30,
   zoomMax: 300,

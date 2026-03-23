@@ -57,11 +57,23 @@ export function GraphScene({ data, focusSlug, onNodeClick }: GraphSceneProps) {
         nodes: data.nodes.map((n) => ({ id: n.id, name: n.name })),
         links: data.edges.map((e) => ({ source: e.source, target: e.target })),
       })
-      .numDimensions(3)
-      .d3Force("charge")?.strength(GRAPH_CONFIG.forceStrength);
+      .numDimensions(3);
 
-    fg.d3Force("link")?.distance(GRAPH_CONFIG.linkDistance);
-    fg.d3Force("center")?.strength(GRAPH_CONFIG.centerStrength);
+    // Configure forces separately (d3Force returns the force, not the graph instance)
+    const chargeForce = fg.d3Force("charge");
+    if (chargeForce && typeof chargeForce.strength === "function") {
+      chargeForce.strength(GRAPH_CONFIG.forceStrength);
+    }
+
+    const linkForce = fg.d3Force("link");
+    if (linkForce && typeof linkForce.distance === "function") {
+      linkForce.distance(GRAPH_CONFIG.linkDistance);
+    }
+
+    const centerForce = fg.d3Force("center");
+    if (centerForce && typeof centerForce.strength === "function") {
+      centerForce.strength(GRAPH_CONFIG.centerStrength);
+    }
 
     // Run simulation for a fixed number of ticks
     let ticks = 0;
@@ -166,17 +178,6 @@ export function GraphScene({ data, focusSlug, onNodeClick }: GraphSceneProps) {
     }
 
     pointerStartRef.current = null;
-  };
-
-  // Get neighbor positions for rendering edges
-  const getNeighborPositions = (nodeId: number): [number, number, number][] => {
-    const neighborIds = data.edges
-      .filter((e) => e.source === nodeId || e.target === nodeId)
-      .map((e) => (e.source === nodeId ? e.target : e.source));
-
-    return neighborIds
-      .map((id) => nodePositions.get(id))
-      .filter((pos): pos is [number, number, number] => pos !== undefined);
   };
 
   return (
